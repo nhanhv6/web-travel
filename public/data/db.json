@@ -1,0 +1,73 @@
+{
+  "tours": [
+    {
+      "id": 1,
+      "slug": "City Tour",
+      "title": "Hoa Lư - Cốc Small Group Full Day Tour",
+      "description": "Một ngày thú vị khám phá Hoa Lư và Tràng An",
+      "price": 100,
+      "rating": 4.5,
+      "imageGallery": [
+        "../assets/images/gallery/gallery-1.jpg",
+        "../assets/images/gallery/gallery-2.jpg",
+        "../assets/images/gallery/gallery-3.jpg",
+        "../assets/images/gallery/gallery-5.jpg",
+        "../assets/images/gallery/gallery-6.jpg"
+      ],
+      "image": "../assets/images/gallery/gallery-1.jpg",
+      "duration": "3 days",
+      "distance": "450 km",
+      "difficulty": "Intermediate",
+      "groupSize": "5-10 riders",
+      "time": {
+        "start": "08:00",
+        "end": "16:00"
+      },
+      "content": "<p>Khám phá vẻ đẹp lịch sử của Hoa Lư và Tràng An qua các hoạt động thú vị, bao gồm tham quan các di tích lịch sử, chèo thuyền trên sông và tận hưởng không khí trong lành của núi rừng. Đây là một tour du lịch lý tưởng cho những ai yêu thích khám phá thiên nhiên và di sản văn hóa.</p>"
+    },
+    {
+      "id": 2,
+      "slug": "Countryside Tour",
+      "title": "Hoa Lư Private Tour",
+      "description": "Một ngày thú vị khám phá Hoa Lư và Tràng An",
+      "price": 100,
+      "rating": 4.5,
+      "imageGallery": [
+        "../assets/images/gallery/gallery-1.jpg",
+        "../assets/images/gallery/gallery-2.jpg"
+      ],
+      "image": "../assets/images/gallery/gallery-2.jpg",
+      "duration": "3 days",
+      "distance": "450 km",
+      "difficulty": "Intermediate",
+      "groupSize": "5-10 riders",
+      "time": {
+        "start": "08:00",
+        "end": "16:00"
+      },
+      "content": "<p>Tour này sẽ đưa bạn vào một hành trình khám phá các cánh đồng xanh tươi và những ngôi làng yên bình xung quanh Hoa Lư, nơi bạn có thể tìm hiểu về đời sống của người dân địa phương và thưởng thức những món ăn đặc sản.</p>"
+    },
+    {
+      "id": 3,
+      "slug": "Street food tour",
+      "title": "Hoa Lư Private Tour",
+      "description": "Một ngày thú vị khám phá Hoa Lư và Tràng An",
+      "price": 100,
+      "rating": 4.5,
+      "imageGallery": [
+        "../assets/images/gallery/gallery-3.jpg",
+        "../assets/images/gallery/gallery-4.jpg"
+      ],
+      "image": "../assets/images/gallery/gallery-3.jpg",
+      "duration": "3 days",
+      "distance": "450 km",
+      "difficulty": "Intermediate",
+      "groupSize": "5-10 riders",
+      "time": {
+        "start": "08:00",
+        "end": "16:00"
+      },
+      "content": "<p>Thưởng thức những món ăn đặc sắc của Hoa Lư trong tour ẩm thực này. Bạn sẽ được khám phá các quán ăn địa phương, thử những món ăn ngon và trải nghiệm văn hóa ẩm thực phong phú của khu vực.</p>"
+    }
+  ]
+}

@@ -1,0 +1,156 @@
+"use client";
+
+import { useEffect, useState, useCallback } from "react";
+import Image from "next/image";
+import { notFound } from "next/navigation";
+import { Tour } from "@/types";
+import useEmblaCarousel from "embla-carousel-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import Loading from "@/components/ui/loading";
+import DOMPurify from "dompurify";
+import OtherToursSidebar from "./OtherToursSidebar";
+
+export default function TourDetailClient({ slug }: { slug: string }) {
+  const [tour, setTour] = useState<Tour | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [emblaRef, emblaApi] = useEmblaCarousel();
+  const [otherTours, setOtherTours] = useState<Tour[]>([]);
+
+  const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
+  const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
+
+  useEffect(() => {
+    const fetchTourData = async () => {
+      const res = await fetch("/api/tours");
+      const data: Tour[] = await res.json();
+
+      // Find the current tour by slug
+      const foundTour = data.find(
+        (t) => decodeURIComponent(t.slug) === decodeURIComponent(slug)
+      );
+      setTour(foundTour || null);
+
+      // Exclude the current tour to show other tours in the sidebar
+      const filteredTours = data.filter(
+        (t) => decodeURIComponent(t.slug) !== decodeURIComponent(slug)
+      );
+      setOtherTours(filteredTours);
+
+      setLoading(false);
+    };
+    fetchTourData();
+  }, [slug]);
+
+  if (loading) return <Loading />;
+  if (!tour) return notFound();
+
+  const sanitizedDescription = DOMPurify.sanitize(tour.content);
+
+  return (
+    <div className="relative mx-auto px-4 py-16 max-w-7xl text-gray-900">
+      {/* Background radial gradient glow */}
+      <div className="-z-10 absolute inset-0 bg-gradient-to-br from-indigo-50 via-white to-teal-50 opacity-70" />
+
+      {/* Main Content Area */}
+      <div className="gap-12 grid grid-cols-1 md:grid-cols-3">
+        {/* Tour Details */}
+        <div className="col-span-2">
+          {/* Title & rating */}
+          <div className="mb-10 text-center">
+            <h1 className="bg-clip-text bg-gradient-to-r from-teal-500 to-indigo-600 drop-shadow font-extrabold text-transparent text-4xl md:text-5xl tracking-tight">
+              {tour.title}
+            </h1>
+            <div className="inline-flex items-center gap-2 bg-yellow-100 shadow-sm mt-2 px-3 py-1 rounded-full font-semibold text-yellow-800 text-sm">
+              ⭐ {tour.rating} / 5.0
+            </div>
+          </div>
+
+          {/* Image slider */}
+          <div className="relative shadow-xl rounded-2xl overflow-hidden">
+            <div ref={emblaRef} className="overflow-hidden">
+              <div className="flex">
+                {tour.imageGallery.map((img, i) => (
+                  <div
+                    className="relative min-w-full h-[500px] transition-all"
+                    key={i}
+                  >
+                    <Image
+                      src={img.replace("..", "")}
+                      alt={`Slide ${i + 1}`}
+                      fill
+                      className="w-full h-full object-cover"
+                    />
+                    {i === 0 && (
+                      <div className="absolute inset-0 flex justify-center items-center bg-black/40">
+                        <p className="drop-shadow-lg font-bold text-white text-2xl animate-fade-in">
+                          Unveil the Wonders of {tour.title}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Navigation buttons */}
+            <button
+              onClick={scrollPrev}
+              className="top-1/2 left-4 z-10 absolute bg-white shadow-md hover:shadow-lg p-3 rounded-full transition -translate-y-1/2"
+            >
+              <ChevronLeft />
+            </button>
+            <button
+              onClick={scrollNext}
+              className="top-1/2 right-4 z-10 absolute bg-white shadow-md hover:shadow-lg p-3 rounded-full transition -translate-y-1/2"
+            >
+              <ChevronRight />
+            </button>
+          </div>
+
+          {/* Description & HTML content */}
+          <div className="space-y-6 mt-12 text-gray-700 text-lg leading-relaxed">
+            <p className="italic">{tour.description}</p>
+            <div
+              className="max-w-none prose prose-indigo prose-lg"
+              dangerouslySetInnerHTML={{ __html: sanitizedDescription }}
+            />
+          </div>
+
+          {/* Info grid */}
+          <div className="gap-6 grid grid-cols-2 md:grid-cols-4 mt-12">
+            {[
+              ["🕒 Duration", tour.duration],
+              ["⏰ Time", `${tour.time.start} - ${tour.time.end}`],
+              ["🌐 Language", "English"],
+              ["👥 Group Size", tour.groupSize],
+            ].map(([label, value]) => (
+              <div
+                key={label}
+                className="bg-white/90 shadow hover:shadow-lg backdrop-blur-md p-4 border border-gray-100 rounded-lg transition"
+              >
+                <p className="font-medium text-gray-500 text-sm">{label}</p>
+                <p className="font-semibold text-gray-900 text-base">{value}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Price */}
+          <div className="mt-12 text-center">
+            <p className="drop-shadow-sm font-extrabold text-indigo-600 text-3xl">
+              {tour.price.toLocaleString()} VND
+            </p>
+            <p className="text-gray-500 text-sm">Per Person</p>
+            <button className="bg-gradient-to-r from-indigo-500 to-teal-500 shadow-lg mt-4 px-6 py-3 rounded-xl font-semibold text-white hover:scale-105 transition transform">
+              Book Now
+            </button>
+          </div>
+        </div>
+
+        {/* Sidebar: Other tours */}
+        <div className="col-span-1">
+          <OtherToursSidebar otherTours={otherTours} />
+        </div>
+      </div>
+    </div>
+  );
+}
