@@ -23,7 +23,7 @@ export default function HeroSection() {
         </p>
         <div className="flex sm:flex-row flex-col gap-4">
           <Link
-            href="#motorcycles"
+            href="#bicycles"
             className="inline-flex justify-center items-center bg-red-600 hover:bg-red-700 px-8 py-3 rounded-md font-medium text-white transition-colors"
           >
             Explore Motorcycles

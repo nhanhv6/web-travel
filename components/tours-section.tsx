@@ -1,46 +1,12 @@
-import Image from "next/image"
-import Link from "next/link"
-import { Calendar, Clock, MapPin, Users, ChevronRight } from "lucide-react"
+"use client";
+
+import Image from "next/image";
+import Link from "next/link";
+import { Calendar, Clock, MapPin, Users, ChevronRight } from "lucide-react";
+import { useTourContext } from "@/context/TourContext";
 
 export default function ToursSection() {
-  const tours = [
-    {
-      id: 1,
-      name: "City Tour",
-      image: "/placeholder.svg?height=600&width=800&text=Mountain+Pass",
-      duration: "3 days",
-      distance: "450 km",
-      difficulty: "Intermediate",
-      groupSize: "5-10 riders",
-      description:
-        "Experience the thrill of riding through scenic mountain passes with breathtaking views. This tour takes you through winding roads and spectacular landscapes.",
-      price: "$599",
-    },
-    {
-      id: 2,
-      name: "Countryside Tour",
-      image: "/placeholder.svg?height=600&width=800&text=Coastal+Highway",
-      duration: "5 days",
-      distance: "780 km",
-      difficulty: "Beginner-Friendly",
-      groupSize: "8-15 riders",
-      description:
-        "Ride along stunning coastal highways with ocean views and beach stops. Perfect for riders looking for a relaxed pace with beautiful scenery.",
-      price: "$899",
-    },
-    {
-      id: 3,
-      name: "Street food tour ",
-      image: "/placeholder.svg?height=600&width=800&text=Wilderness+Trail",
-      duration: "4 days",
-      distance: "320 km",
-      difficulty: "Advanced",
-      groupSize: "4-8 riders",
-      description:
-        "Challenge yourself on rugged off-road trails through forests and wilderness. This adventure is designed for experienced riders seeking an adrenaline rush.",
-      price: "$749",
-    },
-  ]
+  const { tours } = useTourContext();
 
   return (
     <section id="tours" className="bg-gray-50 py-20">
@@ -49,8 +15,9 @@ export default function ToursSection() {
           <h2 className="mb-4 font-bold text-3xl md:text-4xl">Our Tours</h2>
           <div className="bg-red-600 mx-auto mb-6 w-20 h-1"></div>
           <p className="mx-auto max-w-3xl text-gray-700">
-            Join our guided motorcycle tours and experience the thrill of the open road with fellow riders. Our
-            professional guides ensure a safe and unforgettable adventure.
+            Join our guided bicycles tours and experience the thrill of the open
+            road with fellow riders. Our professional guides ensure a safe and
+            unforgettable adventure.
           </p>
         </div>
 
@@ -61,13 +28,18 @@ export default function ToursSection() {
               className="bg-white shadow-lg rounded-lg overflow-hidden hover:scale-[1.02] transition-transform"
             >
               <div className="relative h-64">
-                <Image src={tour.image || "/placeholder.svg"} alt={tour.name} fill className="object-cover" />
+                <Image
+                  src={tour.image || "/placeholder.svg"}
+                  alt={tour.title}
+                  fill
+                  className="object-cover"
+                />
                 <div className="top-4 right-4 absolute bg-red-600 px-3 py-1 rounded-full font-medium text-white text-sm">
                   {tour.price}
                 </div>
               </div>
               <div className="p-6">
-                <h3 className="mb-3 font-bold text-2xl">{tour.name}</h3>
+                <h3 className="mb-3 font-bold text-2xl">{tour.slug}</h3>
                 <p className="mb-4 text-gray-700">{tour.description}</p>
 
                 <div className="gap-4 grid grid-cols-2 mb-6">
@@ -91,13 +63,13 @@ export default function ToursSection() {
 
                 <div className="flex justify-between items-center">
                   <Link
-                    href={`/tours/${tour.id}`}
+                    href={`/tours/${tour.slug}`}
                     className="inline-flex items-center bg-red-600 hover:bg-red-700 px-6 py-2 rounded-md font-medium text-white transition-colors"
                   >
                     Book Now
                   </Link>
                   <Link
-                    href={`/tours/${tour.id}`}
+                    href={`/tours/${tour.slug}`}
                     className="flex items-center font-medium text-red-600 hover:text-red-700"
                   >
                     Tour Details <ChevronRight className="ml-1 w-4 h-4" />
@@ -118,5 +90,5 @@ export default function ToursSection() {
         </div>
       </div>
     </section>
-  )
+  );
 }

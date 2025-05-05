@@ -1,21 +1,75 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import Link from "next/link"
-import { X, ChevronDown, ChevronUp } from "lucide-react"
+import { useState } from "react";
+import Link from "next/link";
+import { X, ChevronDown, ChevronUp } from "lucide-react";
+import { Tour } from "@/types";
+import { useRouter, usePathname } from "next/navigation";
 
-export default function MobileMenu({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
-  const [toursOpen, setToursOpen] = useState(false)
+export default function MobileMenu({
+  isOpen,
+  onClose,
+  tours = [],
+}: {
+  isOpen: boolean;
+  tours: Tour[];
+  onClose: () => void;
+}) {
+  const [toursOpen, setToursOpen] = useState(false);
+  const router = useRouter();
+  const pathname = usePathname();
 
-  if (!isOpen) return null
+  const scrollToSection = (hash: string) => {
+    const element = document.getElementById(hash);
+    if (element) {
+      const headerOffset = 80; // Điều chỉnh theo chiều cao header
+      const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+      window.scrollTo({
+        top: elementPosition - headerOffset,
+        behavior: "smooth",
+      });
+      console.log(`Scrolled to element with id: ${hash}`);
+    } else {
+      console.log(`Element with id: ${hash} not found`);
+    }
+  };
+
+  const navigateToHomeAndAnchor = (hash: string) => {
+    if (pathname !== "/") {
+      router.push(`/#${hash}`);
+    } else {
+      scrollToSection(hash);
+    }
+    onClose();
+  };
+
+  const navigateToTour = (slug: string) => {
+    router.push(`/tours/${slug}`);
+    // Cuộn lên đầu ngay sau khi điều hướng
+    setTimeout(() => window.scrollTo({ top: 0, behavior: "smooth" }), 0);
+    onClose();
+  };
+
+  const renderNavButton = (hash: string, label: string) => (
+    <button
+      onClick={() => navigateToHomeAndAnchor(hash)}
+      className="py-2 font-medium text-left"
+    >
+      {label}
+    </button>
+  );
 
   return (
-    <div className="fixed inset-0 bg-black/50 z-50 md:hidden">
-      <div className="fixed right-0 top-0 h-full w-3/4 max-w-sm bg-white shadow-lg p-5 overflow-y-auto">
+    <div
+      className={`md:hidden z-50 fixed inset-0 bg-black/50 ${
+        isOpen ? "mobile-menu-enter" : "mobile-menu-exit"
+      }`}
+    >
+      <div className="top-0 right-0 fixed bg-white shadow-lg p-5 w-3/4 max-w-sm h-full overflow-y-auto">
         <div className="flex justify-between items-center mb-8">
-          <span className="text-xl font-bold text-red-600">DEMOMOTO</span>
+          <span className="font-bold text-red-600 text-xl">DEMOMOTO</span>
           <button onClick={onClose} className="p-2">
-            <X className="h-6 w-6" />
+            <X className="w-6 h-6" />
           </button>
         </div>
 
@@ -23,54 +77,46 @@ export default function MobileMenu({ isOpen, onClose }: { isOpen: boolean; onClo
           <Link href="/" className="py-2 font-medium" onClick={onClose}>
             Home
           </Link>
-          <Link href="#about" className="py-2 font-medium" onClick={onClose}>
-            About
-          </Link>
-          <Link href="#motorcycles" className="py-2 font-medium" onClick={onClose}>
-            Motorcycles
-          </Link>
+          {renderNavButton("about", "About")}
+          {renderNavButton("bicycles", "Bicycles")}
 
           <div>
             <button
-              className="flex items-center justify-between w-full py-2 font-medium"
+              className="flex justify-between items-center py-2 w-full font-medium"
               onClick={() => setToursOpen(!toursOpen)}
             >
               Tours
-              {toursOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+              {toursOpen ? (
+                <ChevronUp className="w-4 h-4" />
+              ) : (
+                <ChevronDown className="w-4 h-4" />
+              )}
             </button>
 
-            {toursOpen && (
-              <div className="pl-4 mt-2 space-y-2 border-l-2 border-gray-200">
-                <Link href="#tours" className="block py-1" onClick={onClose}>
-                  All Tours
-                </Link>
-                <Link href="#tours" className="block py-1" onClick={onClose}>
-                  Mountain Pass Adventure
-                </Link>
-                <Link href="#tours" className="block py-1" onClick={onClose}>
-                  Coastal Highway Expedition
-                </Link>
-                <Link href="#tours" className="block py-1" onClick={onClose}>
-                  Off-Road Wilderness Trail
-                </Link>
-                <Link href="#tours" className="block py-1" onClick={onClose}>
-                  Historic Villages Tour
-                </Link>
-              </div>
-            )}
+            <div
+              className={`${
+                toursOpen
+                  ? "max-h-[500px] opacity-100 transition-all ease-in-out duration-300"
+                  : "max-h-0 opacity-0 transition-all ease-in-out duration-300"
+              } overflow-hidden space-y-2 mt-2 pl-4 border-gray-200 border-l-2`}
+            >
+              {tours.map((tour) => (
+                <button
+                  key={tour.id}
+                  onClick={() => navigateToTour(tour.slug)}
+                  className="block py-1 w-full text-left"
+                >
+                  {tour.title}
+                </button>
+              ))}
+            </div>
           </div>
 
-          <Link href="#services" className="py-2 font-medium" onClick={onClose}>
-            Services
-          </Link>
-          <Link href="#gallery" className="py-2 font-medium" onClick={onClose}>
-            Gallery
-          </Link>
-          <Link href="#contact" className="py-2 font-medium" onClick={onClose}>
-            Contact
-          </Link>
+          {renderNavButton("services", "Services")}
+          {renderNavButton("gallery", "Gallery")}
+          {renderNavButton("contact", "Contact")}
         </nav>
       </div>
     </div>
-  )
+  );
 }

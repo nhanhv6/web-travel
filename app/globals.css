@@ -78,3 +78,50 @@ html {
     @apply bg-background text-foreground;
   }
 }
+
+@keyframes menuEnter {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes menuExit {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+.mobile-menu-enter {
+  animation: menuEnter 0.3s ease-out forwards;
+}
+
+.mobile-menu-exit {
+  animation: menuExit 0.3s ease-in forwards;
+}
+
+.tours-enter {
+  height: auto;
+  opacity: 1;
+  transition: height 0.3s ease-out, opacity 0.3s ease-out;
+}
+
+.tours-exit {
+  height: 0;
+  opacity: 0;
+  transition: height 0.3s ease-in, opacity 0.3s ease-in;
+}
+
+.tours-content {
+  overflow: hidden;
+  height: 0;
+}

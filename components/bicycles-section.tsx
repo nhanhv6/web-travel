@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 
-export default function MotorcyclesSection() {
+export default function BicyclesSection() {
   const motorcycles = [
     {
       name: "Sport Racer 1000",
@@ -43,11 +43,11 @@ export default function MotorcyclesSection() {
   ];
 
   return (
-    <section id="motorcycles" className="py-20">
+    <section id="bicycles" className="py-20">
       <div className="mx-auto px-4 container">
         <div className="mb-16 text-center">
           <h2 className="mb-4 font-bold text-3xl md:text-4xl">
-            Featured Motorcycles
+            Featured Bicycle
           </h2>
           <div className="bg-red-600 mx-auto mb-6 w-20 h-1"></div>
           <p className="mx-auto max-w-3xl text-gray-700">

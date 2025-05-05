@@ -3,28 +3,28 @@ import { Facebook, Instagram, Youtube } from "lucide-react"
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-900 text-white py-12">
-      <div className="container mx-auto px-4">
-        <div className="grid md:grid-cols-4 gap-8">
+    <footer className="bg-gray-900 py-12 text-white">
+      <div className="mx-auto px-4 container">
+        <div className="gap-8 grid md:grid-cols-4">
           <div>
-            <h3 className="text-xl font-bold mb-4">DEMOMOTO</h3>
-            <p className="text-gray-400 mb-4">
-              Your trusted partner for all motorcycle needs. Quality bikes, expert service, and passionate staff.
+            <h3 className="mb-4 font-bold text-xl">DEMOMOTO</h3>
+            <p className="mb-4 text-gray-400">
+              Your trusted partner for all bicycles needs. Quality bikes, expert service, and passionate staff.
             </p>
             <div className="flex space-x-4">
               <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                <Facebook className="h-5 w-5" />
+                <Facebook className="w-5 h-5" />
               </a>
               <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                <Instagram className="h-5 w-5" />
+                <Instagram className="w-5 h-5" />
               </a>
               <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                <Youtube className="h-5 w-5" />
+                <Youtube className="w-5 h-5" />
               </a>
             </div>
           </div>
           <div>
-            <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
+            <h4 className="mb-4 font-semibold text-lg">Quick Links</h4>
             <ul className="space-y-2">
               <li>
                 <Link href="/" className="text-gray-400 hover:text-white transition-colors">
@@ -59,7 +59,7 @@ export default function Footer() {
             </ul>
           </div>
           <div>
-            <h4 className="text-lg font-semibold mb-4">Services</h4>
+            <h4 className="mb-4 font-semibold text-lg">Services</h4>
             <ul className="space-y-2">
               <li>
                 <Link href="#" className="text-gray-400 hover:text-white transition-colors">
@@ -89,24 +89,24 @@ export default function Footer() {
             </ul>
           </div>
           <div>
-            <h4 className="text-lg font-semibold mb-4">Newsletter</h4>
-            <p className="text-gray-400 mb-4">Subscribe to our newsletter for the latest updates and offers.</p>
+            <h4 className="mb-4 font-semibold text-lg">Newsletter</h4>
+            <p className="mb-4 text-gray-400">Subscribe to our newsletter for the latest updates and offers.</p>
             <form className="space-y-2">
               <input
                 type="email"
                 placeholder="Your email address"
-                className="w-full px-4 py-2 rounded-md bg-gray-800 border border-gray-700 focus:ring-red-500 focus:border-red-500 text-white"
+                className="bg-gray-800 px-4 py-2 border border-gray-700 focus:border-red-500 rounded-md focus:ring-red-500 w-full text-white"
               />
               <button
                 type="submit"
-                className="w-full bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md font-medium transition-colors"
+                className="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-md w-full font-medium text-white transition-colors"
               >
                 Subscribe
               </button>
             </form>
           </div>
         </div>
-        <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+        <div className="mt-12 pt-8 border-gray-800 border-t text-gray-400 text-center">
           <p>&copy; {new Date().getFullYear()} DemoMoto. All rights reserved.</p>
         </div>
       </div>

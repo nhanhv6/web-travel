@@ -7,7 +7,7 @@ export default function TestimonialsSection() {
     },
     {
       name: "Sarah M.",
-      text: "Bought my first motorcycle here and the experience was amazing. They helped me choose the perfect bike for my needs and provided great after-sales support.",
+      text: "Bought my first bicycles here and the experience was amazing. They helped me choose the perfect bike for my needs and provided great after-sales support.",
       rating: 5,
     },
     {
@@ -18,15 +18,15 @@ export default function TestimonialsSection() {
   ]
 
   return (
-    <section className="py-20 bg-gray-50">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">What Our Customers Say</h2>
-          <div className="w-20 h-1 bg-red-600 mx-auto mb-6"></div>
+    <section className="bg-gray-50 py-20">
+      <div className="mx-auto px-4 container">
+        <div className="mb-16 text-center">
+          <h2 className="mb-4 font-bold text-3xl md:text-4xl">What Our Customers Say</h2>
+          <div className="bg-red-600 mx-auto mb-6 w-20 h-1"></div>
         </div>
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="gap-8 grid md:grid-cols-3">
           {testimonials.map((testimonial, index) => (
-            <div key={index} className="bg-white p-8 rounded-lg shadow-lg">
+            <div key={index} className="bg-white shadow-lg p-8 rounded-lg">
               <div className="flex mb-4">
                 {Array.from({ length: 5 }).map((_, i) => (
                   <svg
@@ -40,7 +40,7 @@ export default function TestimonialsSection() {
                   </svg>
                 ))}
               </div>
-              <p className="text-gray-700 mb-4 italic">"{testimonial.text}"</p>
+              <p className="mb-4 text-gray-700 italic">"{testimonial.text}"</p>
               <p className="font-semibold">{testimonial.name}</p>
             </div>
           ))}
