@@ -7,7 +7,7 @@ export default function Footer() {
       <div className="mx-auto px-4 container">
         <div className="gap-8 grid md:grid-cols-4">
           <div>
-            <h3 className="mb-4 font-bold text-xl">DEMOMOTO</h3>
+            <h3 className="mb-4 font-bold text-xl">Beep beep</h3>
             <p className="mb-4 text-gray-400">
               Your trusted partner for all bicycles needs. Quality bikes, expert service, and passionate staff.
             </p>

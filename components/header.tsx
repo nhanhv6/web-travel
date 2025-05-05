@@ -20,9 +20,12 @@ export default function Header() {
   const pathname = usePathname();
 
   const navigateToHomeAndAnchor = (hash: string) => {
-    console.log({ pathname, hash, isNotHome: pathname !== "/" });
     if (pathname !== "/") {
       router.push(`/#${hash}`);
+    } else if (hash === "home") {
+      // Cuộn lên đầu trang nếu là "home" và đang ở trang chủ
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      console.log("Scrolled to top of home page");
     } else {
       scrollToSection(hash);
     }
@@ -33,7 +36,8 @@ export default function Header() {
     const element = document.getElementById(hash);
     if (element) {
       const headerOffset = 80; // Điều chỉnh theo chiều cao header
-      const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+      const elementPosition =
+        element.getBoundingClientRect().top + window.pageYOffset;
       window.scrollTo({
         top: elementPosition - headerOffset,
         behavior: "smooth",
@@ -60,14 +64,13 @@ export default function Header() {
         const element = document.getElementById(hash);
         if (element) {
           const headerOffset = 80;
-          const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+          const elementPosition =
+            element.getBoundingClientRect().top + window.pageYOffset;
           window.scrollTo({
             top: elementPosition - headerOffset,
             behavior: "smooth",
           });
-          console.log(`Scrolled to element with id: ${hash}`);
         } else {
-          console.log(`Retrying scroll to: ${hash}`);
           setTimeout(tryScroll, 100);
         }
       };
@@ -83,7 +86,10 @@ export default function Header() {
       <DropdownMenuContent align="center" className="w-48">
         {tours.map((tour) => (
           <DropdownMenuItem asChild key={tour.id}>
-            <Link href={`/tours/${tour.slug}`} className="w-full cursor-pointer">
+            <Link
+              href={`/tours/${tour.slug}`}
+              className="w-full cursor-pointer"
+            >
               {tour.slug}
             </Link>
           </DropdownMenuItem>
@@ -95,8 +101,11 @@ export default function Header() {
   return (
     <header className="top-0 z-50 sticky bg-white shadow-md">
       <div className="flex justify-between items-center mx-auto px-4 py-4 container">
-        <button onClick={() => router.push("/")} className="flex items-center space-x-2">
-          <span className="font-bold text-red-600 text-2xl">DEMOMOTO</span>
+        <button
+          onClick={() => router.push("/")}
+          className="flex items-center space-x-2"
+        >
+          <span className="font-bold text-red-600 text-2xl">Beep beep</span>
         </button>
         <nav className="hidden md:flex items-center space-x-8">
           {renderNavButton("home", "Home")}

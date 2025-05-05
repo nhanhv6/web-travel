@@ -36,7 +36,7 @@ export default function AboutSection() {
             </div>
           </div>
           <div className="relative shadow-xl rounded-lg h-[400px] overflow-hidden">
-            <Image src="/placeholder.svg?height=800&width=600" alt="Motorcycle shop" fill className="object-cover" />
+            <Image src="/assets/images/about/about-1.jpg" alt="Motorcycle shop" fill className="object-cover" />
           </div>
         </div>
       </div>

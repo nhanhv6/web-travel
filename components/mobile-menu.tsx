@@ -67,7 +67,7 @@ export default function MobileMenu({
     >
       <div className="top-0 right-0 fixed bg-white shadow-lg p-5 w-3/4 max-w-sm h-full overflow-y-auto">
         <div className="flex justify-between items-center mb-8">
-          <span className="font-bold text-red-600 text-xl">DEMOMOTO</span>
+          <span className="font-bold text-red-600 text-xl">Beep beep</span>
           <button onClick={onClose} className="p-2">
             <X className="w-6 h-6" />
           </button>
