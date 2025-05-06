@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { X, ChevronDown, ChevronUp } from "lucide-react";
+import { X, ChevronDown, ChevronUp, LogOut, User, LogIn } from "lucide-react";
 import { Tour } from "@/types";
 import { useRouter, usePathname } from "next/navigation";
+import { Separator } from "@radix-ui/react-separator";
 
 export default function MobileMenu({
   isOpen,
@@ -23,7 +24,8 @@ export default function MobileMenu({
     const element = document.getElementById(hash);
     if (element) {
       const headerOffset = 80; // Điều chỉnh theo chiều cao header
-      const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+      const elementPosition =
+        element.getBoundingClientRect().top + window.pageYOffset;
       window.scrollTo({
         top: elementPosition - headerOffset,
         behavior: "smooth",
@@ -106,7 +108,7 @@ export default function MobileMenu({
                   onClick={() => navigateToTour(tour.slug)}
                   className="block py-1 w-full text-left"
                 >
-                  {tour.title}
+                  {tour.slug}
                 </button>
               ))}
             </div>

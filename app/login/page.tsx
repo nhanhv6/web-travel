@@ -1,22 +1,17 @@
 "use client";
 
-import type React from "react";
-
-import { useState } from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { Eye, EyeOff, Lock, Mail } from "lucide-react";
-import Header from "@/components/header";
-import Footer from "@/components/footer";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Separator } from "@/components/ui/separator";
+import { supabase } from "@/lib/supabaseClient";
+import { Eye, EyeOff, Lock, Mail } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+
+import type React from "react";
 
 export default function LoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -32,20 +27,24 @@ export default function LoginPage() {
 
     setIsLoading(true);
 
-    // Simulate API call
     try {
-      // This is where you would normally make an API call to authenticate
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      const { error: loginError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
-      // For demo purposes, we'll just redirect to home
-      router.push("/");
+      if (loginError) {
+        setError("Invalid email or password. Please try again.");
+      } else {
+        router.push("/"); // hoặc trang dashboard nào bạn muốn
+      }
     } catch (err) {
-      setError("Invalid email or password. Please try again.");
+      console.error("Login error:", err);
+      setError("An unexpected error occurred. Please try again.");
     } finally {
       setIsLoading(false);
     }
   };
-
   return (
     <div className="flex flex-col min-h-screen">
       <main className="flex flex-grow justify-center items-center bg-gray-50 px-4 sm:px-6 lg:px-8 py-12">

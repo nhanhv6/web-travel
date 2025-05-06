@@ -8,13 +8,16 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, LogIn, LogOut, User } from "lucide-react";
 import MobileMenu from "./mobile-menu";
 import { useTourContext } from "@/context/TourContext";
 import { useRouter, usePathname } from "next/navigation";
+import { Button } from "./ui/button";
+import { supabase } from "@/lib/supabaseClient";
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const { tours } = useTourContext();
   const router = useRouter();
   const pathname = usePathname();
@@ -77,6 +80,29 @@ export default function Header() {
     </DropdownMenu>
   );
 
+  const checkLogin = async () => {
+    const { data, error } = await supabase.auth.getUser();
+    if (data?.user) {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
+  };
+
+  const handleLogin = () => {
+    router.push("/login");
+  };
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    setIsLoggedIn(false);
+    router.push("/");
+  };
+
+  useEffect(() => {
+    checkLogin();
+  }, []);
+
   useEffect(() => {
     if (window.location.hash) {
       const hash = window.location.hash.replace("#", "");
@@ -98,15 +124,31 @@ export default function Header() {
     }
   }, [pathname]);
 
+  useEffect(() => {
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        setIsLoggedIn(!!session?.user);
+      }
+    );
+  
+    // Cleanup listener khi unmount
+    return () => {
+      authListener.subscription.unsubscribe();
+    };
+  }, []);
+
   return (
     <header className="top-0 z-50 sticky bg-white shadow-md">
       <div className="flex justify-between items-center mx-auto px-4 py-4 container">
+        {/* Left: Logo */}
         <button
           onClick={() => router.push("/")}
           className="flex items-center space-x-2"
         >
           <span className="font-bold text-red-600 text-2xl">Beep beep</span>
         </button>
+
+        {/* Middle: Hidden on mobile */}
         <nav className="hidden md:flex items-center space-x-8">
           {renderNavButton("home", "Home")}
           {renderNavButton("about", "About")}
@@ -116,8 +158,50 @@ export default function Header() {
           {renderNavButton("gallery", "Gallery")}
           {renderNavButton("contact", "Contact")}
         </nav>
-        <div className="md:hidden">
-          <button className="p-2" onClick={() => setMobileMenuOpen(true)}>
+
+        {/* Right: Mobile menu & Auth */}
+        <div className="flex items-center gap-2 md:space-x-4">
+          {/* Auth Buttons - always visible */}
+          {isLoggedIn ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="lg" className="p-2">
+                  <User className="w-5 h-5" />
+                  <span className="ml-1">Hi Admin!</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem asChild>
+                  <Link href="/profile" className="w-full cursor-pointer">
+                    Manage Tours
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={handleLogout}
+                  className="cursor-pointer"
+                >
+                  <LogOut className="mr-2 w-4 h-4" />
+                  Logout
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <Button
+              onClick={handleLogin}
+              variant="default"
+              size="sm"
+              className="bg-neutral-700 hover:bg-neutral-800 px-4 py-2 text-white"
+            >
+              LogIn
+            </Button>
+          )}
+
+          {/* Mobile menu button */}
+
+          <button
+            className="md:hidden p-2"
+            onClick={() => setMobileMenuOpen(true)}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="w-6 h-6"
@@ -135,6 +219,7 @@ export default function Header() {
           </button>
         </div>
       </div>
+
       <MobileMenu
         isOpen={mobileMenuOpen}
         tours={tours}
