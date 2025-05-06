@@ -35,7 +35,7 @@ export default function Header() {
   const scrollToSection = (hash: string) => {
     const element = document.getElementById(hash);
     if (element) {
-      const headerOffset = 80; // Điều chỉnh theo chiều cao header
+      const headerOffset = 80;
       const elementPosition =
         element.getBoundingClientRect().top + window.pageYOffset;
       window.scrollTo({
@@ -55,6 +55,26 @@ export default function Header() {
     >
       {label}
     </button>
+  );
+
+  const renderTourDropdown = () => (
+    <DropdownMenu>
+      <DropdownMenuTrigger className="flex items-center focus:outline-none font-medium hover:text-red-600 transition-colors">
+        Tours <ChevronDown className="ml-1 w-4 h-4" />
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="center" className="w-48">
+        {tours.map((tour) => (
+          <DropdownMenuItem asChild key={tour.id}>
+            <Link
+              href={`/tours/${tour.slug}`}
+              className="w-full cursor-pointer"
+            >
+              {tour.slug}
+            </Link>
+          </DropdownMenuItem>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 
   useEffect(() => {
@@ -77,26 +97,6 @@ export default function Header() {
       tryScroll();
     }
   }, [pathname]);
-
-  const renderTourDropdown = () => (
-    <DropdownMenu>
-      <DropdownMenuTrigger className="flex items-center focus:outline-none font-medium hover:text-red-600 transition-colors">
-        Tours <ChevronDown className="ml-1 w-4 h-4" />
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="center" className="w-48">
-        {tours.map((tour) => (
-          <DropdownMenuItem asChild key={tour.id}>
-            <Link
-              href={`/tours/${tour.slug}`}
-              className="w-full cursor-pointer"
-            >
-              {tour.slug}
-            </Link>
-          </DropdownMenuItem>
-        ))}
-      </DropdownMenuContent>
-    </DropdownMenu>
-  );
 
   return (
     <header className="top-0 z-50 sticky bg-white shadow-md">

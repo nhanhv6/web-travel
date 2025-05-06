@@ -1,51 +1,28 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useCallback } from "react";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { Tour } from "@/types";
 import useEmblaCarousel from "embla-carousel-react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Loading from "@/components/ui/loading";
 import DOMPurify from "dompurify";
 import OtherToursSidebar from "./OtherToursSidebar";
+import { useTourApi } from "../hook";
 
 export default function TourDetailClient({ slug }: { slug: string }) {
-  const [tour, setTour] = useState<Tour | null>(null);
-  const [loading, setLoading] = useState(true);
+  const { tour, otherTours, loading } = useTourApi(slug);
   const [emblaRef, emblaApi] = useEmblaCarousel();
-  const [otherTours, setOtherTours] = useState<Tour[]>([]);
 
   const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
   const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
-
-  useEffect(() => {
-    const fetchTourData = async () => {
-      const res = await fetch("/api/tours");
-      const data: Tour[] = await res.json();
-
-      // Find the current tour by slug
-      const foundTour = data.find(
-        (t) => decodeURIComponent(t.slug) === decodeURIComponent(slug)
-      );
-      setTour(foundTour || null);
-
-      // Exclude the current tour to show other tours in the sidebar
-      const filteredTours = data.filter(
-        (t) => decodeURIComponent(t.slug) !== decodeURIComponent(slug)
-      );
-      setOtherTours(filteredTours);
-
-      setLoading(false);
-    };
-    fetchTourData();
-  }, [slug]);
 
   if (loading) return <Loading />;
   if (!tour) return notFound();
 
   const sanitizedDescription = DOMPurify.sanitize(tour.content);
 
+ 
   return (
     <div className="relative mx-auto px-4 py-16 max-w-7xl text-gray-900">
       {/* Background radial gradient glow */}
@@ -69,7 +46,7 @@ export default function TourDetailClient({ slug }: { slug: string }) {
           <div className="relative shadow-xl rounded-2xl overflow-hidden">
             <div ref={emblaRef} className="overflow-hidden">
               <div className="flex">
-                {tour.imageGallery.map((img, i) => (
+                {tour.imageGallery?.map((img, i) => (
                   <div
                     className="relative min-w-full h-[500px] transition-all"
                     key={i}

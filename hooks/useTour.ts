@@ -1,36 +1,38 @@
+"use client";
+
 import { Tour } from "@/types";
-import { useState, useEffect } from "react";
+import { createClient } from "@supabase/supabase-js";
+import { useEffect, useState } from "react";
 
-const TOUR_DATA_PATH = "/data/db.json";
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+);
 
-export default function useTour(slug: string) {
-  const [tour, setTour] = useState<Tour | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+export const useTours = () => {
+  const [tours, setTours] = useState<Tour[]>([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const fetchTours = async () => {
+    setLoading(true);
+    setError(null);
+
+    const { data, error } = await supabase.from("tours").select("*");
+
+    if (error) {
+      console.error("Error fetching tours:", error);
+      setError("Failed to fetch tours");
+    } else {
+      setTours(data || []);
+    }
+
+    setLoading(false);
+  };
+
   useEffect(() => {
-    const fetchTourData = async () => {
-      try {
-        const res = await fetch(TOUR_DATA_PATH); // Fetch toàn bộ dữ liệu từ file JSON
-        const tours: Tour[] = await res.json();
+    fetchTours();
+  }, []);
 
-        // Tìm tour có slug trùng với tham số
-        const foundTour = tours.find((tour) => tour.slug === slug);
-
-        if (foundTour) {
-          setTour(foundTour);
-        } else {
-          setError("Tour not found");
-        }
-      } catch (err) {
-        setError("Failed to load tour data");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchTourData();
-  }, [slug]);
-
-  return { tour, loading, error };
-}
+  return { tours, loading, error, fetchTours };
+};
