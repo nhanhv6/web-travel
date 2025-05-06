@@ -22,17 +22,12 @@ export default function TourDetailClient({ slug }: { slug: string }) {
 
   const sanitizedDescription = DOMPurify.sanitize(tour.content);
 
- 
   return (
     <div className="relative mx-auto px-4 py-16 max-w-7xl text-gray-900">
-      {/* Background radial gradient glow */}
       <div className="-z-10 absolute inset-0 bg-gradient-to-br from-indigo-50 via-white to-teal-50 opacity-70" />
 
-      {/* Main Content Area */}
       <div className="gap-12 grid grid-cols-1 md:grid-cols-3">
-        {/* Tour Details */}
         <div className="col-span-2">
-          {/* Title & rating */}
           <div className="mb-10 text-center">
             <h1 className="bg-clip-text bg-gradient-to-r from-teal-500 to-indigo-600 drop-shadow font-extrabold text-transparent text-4xl md:text-5xl tracking-tight">
               {tour.title}
@@ -42,7 +37,6 @@ export default function TourDetailClient({ slug }: { slug: string }) {
             </div>
           </div>
 
-          {/* Image slider */}
           <div className="relative shadow-xl rounded-2xl overflow-hidden">
             <div ref={emblaRef} className="overflow-hidden">
               <div className="flex">
@@ -69,7 +63,6 @@ export default function TourDetailClient({ slug }: { slug: string }) {
               </div>
             </div>
 
-            {/* Navigation buttons */}
             <button
               onClick={scrollPrev}
               className="top-1/2 left-4 z-10 absolute bg-white shadow-md hover:shadow-lg p-3 rounded-full transition -translate-y-1/2"
@@ -84,7 +77,6 @@ export default function TourDetailClient({ slug }: { slug: string }) {
             </button>
           </div>
 
-          {/* Description & HTML content */}
           <div className="space-y-6 mt-12 text-gray-700 text-lg leading-relaxed">
             <p className="italic">{tour.description}</p>
             <div
@@ -93,7 +85,6 @@ export default function TourDetailClient({ slug }: { slug: string }) {
             />
           </div>
 
-          {/* Info grid */}
           <div className="gap-6 grid grid-cols-2 md:grid-cols-4 mt-12">
             {[
               ["🕒 Duration", tour.duration],
