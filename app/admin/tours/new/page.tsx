@@ -1,13 +1,11 @@
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-import AdminHeader from "@/components/admin/admin-header";
 import { Button } from "@/components/ui/button";
 import TourForm from "@/components/admin/tour-form";
 
 export default function NewTourPage() {
   return (
     <div className="flex flex-col min-h-screen">
-      <AdminHeader />
       <main className="flex-1 mx-auto px-4 py-8 container">
         <div className="mb-6">
           <Button variant="outline" asChild className="mb-4">
