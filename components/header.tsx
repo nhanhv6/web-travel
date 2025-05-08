@@ -145,7 +145,7 @@ export default function Header() {
           onClick={() => router.push("/")}
           className="flex items-center space-x-2"
         >
-          <span className="font-bold text-red-600 text-2xl">Thanh Hải travel</span>
+          <span className="font-bold text-red-600 text-2xl">Thanh Hải Travel</span>
         </button>
 
         {/* Middle: Hidden on mobile */}

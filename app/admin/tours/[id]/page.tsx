@@ -2,7 +2,6 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { Calendar, Clock, MapPin, Users, ArrowLeft, Edit } from "lucide-react";
-import AdminHeader from "@/components/admin/admin-header";
 import { Button } from "@/components/ui/button";
 import { getTourById } from "@/app/action/tour-actions";
 export default async function TourDetailPage({
