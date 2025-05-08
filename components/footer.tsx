@@ -1,115 +1,81 @@
-import Link from "next/link"
-import { Facebook, Instagram, Youtube } from "lucide-react"
+import Link from "next/link";
+import { Facebook, Instagram, Youtube } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-900 py-12 text-white">
+    <footer className="z-10 relative bg-gray-950 pt-20 pb-10 text-white">
       <div className="mx-auto px-4 container">
-        <div className="gap-8 grid md:grid-cols-4">
+        <div className="gap-12 grid grid-cols-1 md:grid-cols-3">
+          {/* Logo & Social */}
           <div>
-            <h3 className="mb-4 font-bold text-xl">Beep beep</h3>
-            <p className="mb-4 text-gray-400">
-              Your trusted partner for all bicycles needs. Quality bikes, expert service, and passionate staff.
+            <h3 className="mb-4 font-extrabold text-red-500 text-3xl tracking-wide">Thanh Hải Travel</h3>
+            <p className="mb-6 text-gray-400 leading-relaxed">
+              Discover Hoi An like never before — authentic local experiences, community-focused, and top-notch service.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+              <a href="#" className="bg-gray-800 hover:bg-red-500 p-2 rounded-full transition-colors">
                 <Facebook className="w-5 h-5" />
               </a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+              <a href="#" className="bg-gray-800 hover:bg-red-500 p-2 rounded-full transition-colors">
                 <Instagram className="w-5 h-5" />
               </a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+              <a href="#" className="bg-gray-800 hover:bg-red-500 p-2 rounded-full transition-colors">
                 <Youtube className="w-5 h-5" />
               </a>
             </div>
           </div>
+
+          {/* Navigation */}
           <div>
-            <h4 className="mb-4 font-semibold text-lg">Quick Links</h4>
-            <ul className="space-y-2">
-              <li>
-                <Link href="/" className="text-gray-400 hover:text-white transition-colors">
-                  Home
-                </Link>
-              </li>
-              <li>
-                <Link href="#about" className="text-gray-400 hover:text-white transition-colors">
-                  About Us
-                </Link>
-              </li>
-              <li>
-                <Link href="#motorcycles" className="text-gray-400 hover:text-white transition-colors">
-                  Motorcycles
-                </Link>
-              </li>
-              <li>
-                <Link href="#tours" className="text-gray-400 hover:text-white transition-colors">
-                  Tours
-                </Link>
-              </li>
-              <li>
-                <Link href="#services" className="text-gray-400 hover:text-white transition-colors">
-                  Services
-                </Link>
-              </li>
-              <li>
-                <Link href="#contact" className="text-gray-400 hover:text-white transition-colors">
-                  Contact
-                </Link>
-              </li>
+            <h4 className="mb-4 font-semibold text-xl">Quick Links</h4>
+            <ul className="space-y-2 text-gray-400 text-sm">
+              {[
+                { label: "Home", href: "/" },
+                { label: "About Us", href: "#about" },
+                { label: "Cycling Tour", href: "#motorcycles" },
+                { label: "Tours", href: "#tours" },
+                { label: "Services", href: "#services" },
+                { label: "Contact", href: "#contact" },
+              ].map((link) => (
+                <li key={link.label}>
+                  <Link href={link.href} className="hover:text-white transition-colors">
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
+
+          {/* Our Values */}
           <div>
-            <h4 className="mb-4 font-semibold text-lg">Services</h4>
-            <ul className="space-y-2">
+            <h4 className="mb-4 font-semibold text-xl">Our Values</h4>
+            <ul className="space-y-4 text-gray-400 text-sm">
               <li>
-                <Link href="#" className="text-gray-400 hover:text-white transition-colors">
-                  Maintenance & Repairs
-                </Link>
+                <span className="block leading-relaxed">
+                  <strong className="text-white">Authenticity:</strong> Sharing the authentic culture and traditions of Hoi An.
+                </span>
               </li>
               <li>
-                <Link href="#" className="text-gray-400 hover:text-white transition-colors">
-                  Performance Upgrades
-                </Link>
+                <span className="block leading-relaxed">
+                  <strong className="text-white">Community:</strong> Supporting the local community and promoting sustainable tourism practices.
+                </span>
               </li>
               <li>
-                <Link href="#" className="text-gray-400 hover:text-white transition-colors">
-                  Custom Modifications
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-gray-400 hover:text-white transition-colors">
-                  Diagnostics
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-gray-400 hover:text-white transition-colors">
-                  Tire Services
-                </Link>
+                <span className="block leading-relaxed">
+                  <strong className="text-white">Excellence:</strong> Striving for excellence in everything we do.
+                </span>
               </li>
             </ul>
-          </div>
-          <div>
-            <h4 className="mb-4 font-semibold text-lg">Newsletter</h4>
-            <p className="mb-4 text-gray-400">Subscribe to our newsletter for the latest updates and offers.</p>
-            <form className="space-y-2">
-              <input
-                type="email"
-                placeholder="Your email address"
-                className="bg-gray-800 px-4 py-2 border border-gray-700 focus:border-red-500 rounded-md focus:ring-red-500 w-full text-white"
-              />
-              <button
-                type="submit"
-                className="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-md w-full font-medium text-white transition-colors"
-              >
-                Subscribe
-              </button>
-            </form>
           </div>
         </div>
-        <div className="mt-12 pt-8 border-gray-800 border-t text-gray-400 text-center">
-          <p>&copy; {new Date().getFullYear()} DemoMoto. All rights reserved.</p>
+
+        <div className="mt-16 pt-6 border-gray-800 border-t text-gray-500 text-sm text-center">
+          &copy; {new Date().getFullYear()} Thanh Hải Travel. All rights reserved.
         </div>
       </div>
+
+      {/* Decorative Gradient Line */}
+      <div className="top-0 left-0 absolute bg-gradient-to-r from-red-500 via-transparent to-red-500 opacity-60 w-full h-1" />
     </footer>
-  )
+  );
 }

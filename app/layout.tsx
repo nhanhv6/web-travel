@@ -9,7 +9,7 @@ import TourProvider from "@/context/TourContext";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Beep beep biking",
+  title: "Thanh Hải travel",
   description:
     "Discover our premium selection of bicycles and professional services",
 };

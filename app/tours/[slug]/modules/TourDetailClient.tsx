@@ -51,13 +51,6 @@ export default function TourDetailClient({ slug }: { slug: string }) {
                       fill
                       className="w-full h-full object-cover"
                     />
-                    {i === 0 && (
-                      <div className="absolute inset-0 flex justify-center items-center bg-black/40">
-                        <p className="drop-shadow-lg font-bold text-white text-2xl animate-fade-in">
-                          Unveil the Wonders of {tour.title}
-                        </p>
-                      </div>
-                    )}
                   </div>
                 ))}
               </div>
@@ -105,7 +98,7 @@ export default function TourDetailClient({ slug }: { slug: string }) {
           {/* Price */}
           <div className="mt-12 text-center">
             <p className="drop-shadow-sm font-extrabold text-indigo-600 text-3xl">
-              {tour.price.toLocaleString()} VND
+              {tour.price.toLocaleString()} $
             </p>
             <p className="text-gray-500 text-sm">Per Person</p>
             <button className="bg-gradient-to-r from-indigo-500 to-teal-500 shadow-lg mt-4 px-6 py-3 rounded-xl font-semibold text-white hover:scale-105 transition transform">

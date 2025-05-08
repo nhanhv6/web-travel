@@ -1,64 +1,50 @@
-import Link from "next/link"
-import { ChevronRight } from "lucide-react"
+import { HeartHandshake, Users, Star } from "lucide-react";
 
-export default function ServicesSection() {
-  const services = [
+export default function ValuesSection() {
+  const values = [
     {
-      title: "Maintenance & Repairs",
-      description: "Regular maintenance and repair services to keep your bicycles running smoothly.",
-      icon: "🔧",
+      title: "Authenticity",
+      description: "Sharing the authentic culture and traditions of Hoi An.",
+      icon: <HeartHandshake className="w-10 h-10 text-red-500" />,
     },
     {
-      title: "Performance Upgrades",
-      description: "Enhance your bicycles's performance with our custom upgrade packages.",
-      icon: "⚡",
+      title: "Community",
+      description:
+        "Supporting the local community and promoting sustainable tourism practices.",
+      icon: <Users className="w-10 h-10 text-red-500" />,
     },
     {
-      title: "Custom Modifications",
-      description: "Personalize your ride with our custom modification services.",
-      icon: "🔩",
+      title: "Excellence",
+      description: "Striving for excellence in everything we do.",
+      icon: <Star className="w-10 h-10 text-red-500" />,
     },
-    {
-      title: "Diagnostics",
-      description: "Advanced diagnostic services to identify and resolve complex issues.",
-      icon: "🔍",
-    },
-    {
-      title: "Tire Services",
-      description: "Professional tire mounting, balancing, and replacement services.",
-      icon: "🛞",
-    },
-    {
-      title: "Detailing & Cleaning",
-      description: "Keep your bicycles looking its best with our detailing services.",
-      icon: "✨",
-    },
-  ]
+  ];
 
   return (
-    <section id="services" className="bg-gray-900 py-20 text-white">
+    <section id="values" className="bg-gray-900 py-20 text-white">
       <div className="mx-auto px-4 container">
         <div className="mb-16 text-center">
-          <h2 className="mb-4 font-bold text-3xl md:text-4xl">Our Services</h2>
+          <h2 className="mb-4 font-bold text-3xl md:text-4xl">Our Values</h2>
           <div className="bg-red-600 mx-auto mb-6 w-20 h-1"></div>
-          <p className="mx-auto max-w-3xl text-gray-300">
-            We offer a comprehensive range of services to keep your bicycles in perfect condition. Our expert
-            technicians use the latest tools and genuine parts for all services.
+          <p className="mx-auto max-w-2xl text-gray-300">
+            Our core values reflect our mission to offer meaningful experiences
+            while respecting the culture, people, and environment of Hoi An.
           </p>
         </div>
-        <div className="gap-8 grid md:grid-cols-2 lg:grid-cols-3">
-          {services.map((service, index) => (
-            <div key={index} className="bg-gray-800 p-8 rounded-lg hover:scale-[1.02] transition-transform">
-              <div className="mb-4 text-4xl">{service.icon}</div>
-              <h3 className="mb-3 font-bold text-xl">{service.title}</h3>
-              <p className="mb-4 text-gray-400">{service.description}</p>
-              <Link href="#" className="flex items-center font-medium text-red-500 hover:text-red-400">
-                Learn more <ChevronRight className="ml-1 w-4 h-4" />
-              </Link>
+
+        <div className="gap-8 grid md:grid-cols-3">
+          {values.map((value, index) => (
+            <div
+              key={index}
+              className="bg-gray-800 p-8 rounded-lg hover:scale-[1.02] transition-transform"
+            >
+              <div className="mb-4">{value.icon}</div>
+              <h3 className="mb-3 font-bold text-xl">{value.title}</h3>
+              <p className="text-gray-400">{value.description}</p>
             </div>
           ))}
         </div>
       </div>
     </section>
-  )
+  );
 }

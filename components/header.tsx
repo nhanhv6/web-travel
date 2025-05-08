@@ -145,14 +145,14 @@ export default function Header() {
           onClick={() => router.push("/")}
           className="flex items-center space-x-2"
         >
-          <span className="font-bold text-red-600 text-2xl">Beep beep</span>
+          <span className="font-bold text-red-600 text-2xl">Thanh Hải travel</span>
         </button>
 
         {/* Middle: Hidden on mobile */}
         <nav className="hidden md:flex items-center space-x-8">
           {renderNavButton("home", "Home")}
           {renderNavButton("about", "About")}
-          {renderNavButton("bicycles", "Bicycles")}
+          {renderNavButton("bicycles", "Cycling Tour")}
           {renderTourDropdown()}
           {renderNavButton("services", "Services")}
           {renderNavButton("gallery", "Gallery")}
@@ -172,7 +172,7 @@ export default function Header() {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuItem asChild>
-                  <Link href="/profile" className="w-full cursor-pointer">
+                  <Link href="/admin/tours" className="w-full cursor-pointer">
                     Manage Tours
                   </Link>
                 </DropdownMenuItem>
