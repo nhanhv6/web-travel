@@ -70,14 +70,6 @@ export default function BicyclesSection() {
             </div>
           ))}
         </div>
-        <div className="mt-12 text-center">
-          <Link
-            href="#"
-            className="inline-flex justify-center items-center bg-red-600 hover:bg-red-700 px-8 py-3 rounded-md font-medium text-white transition-colors"
-          >
-            View Cycling Tour
-          </Link>
-        </div>
       </div>
     </section>
   );
