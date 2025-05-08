@@ -10,11 +10,13 @@ import { toast } from "sonner";
 import { supabase } from "@/lib/supabaseClient";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import { createTour, updateTour } from "@/app/action/tour-actions";
 
 export default function TourForm({ tour }: { tour?: any }) {
   const router = useRouter();
 
   const [formData, setFormData] = useState({
+    id: tour?.id || "",
     slug: tour?.slug || "",
     title: tour?.title || "",
     description: tour?.description || "",
@@ -70,15 +72,21 @@ export default function TourForm({ tour }: { tour?: any }) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const { error } = await supabase
-      .from("tours")
-      .upsert({ ...formData }, { onConflict: "id" });
+    try {
+      if (formData.id) {
+        // Nếu có id, gọi updateTour
+        const updatedTour = await updateTour(formData.id, formData);
+        toast.success("Tour updated successfully!");
+      } else {
+        // Nếu không có id, gọi createTour
+        const newTour = await createTour(formData);
+        toast.success("Tour created successfully!");
+      }
 
-    if (error) {
-      toast.error(error.message);
-    } else {
-      toast.success("Tour saved successfully!");
+      // Sau khi thành công, quay lại trang danh sách tour
       router.push("/admin/tours");
+    } catch (error) {
+      toast.error((error as Error).message);
     }
   };
 

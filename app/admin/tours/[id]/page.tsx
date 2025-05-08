@@ -19,7 +19,6 @@ export default async function TourDetailPage({
 
   return (
     <div className="flex flex-col min-h-screen">
-      <AdminHeader />
       <main className="flex-1 mx-auto px-4 py-8 container">
         <div className="mb-6">
           <Button variant="outline" asChild className="mb-4">
