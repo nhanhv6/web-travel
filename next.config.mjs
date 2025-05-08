@@ -9,9 +9,7 @@ const nextConfig = {
   images: {
     domains: ['ieyzyrjbancljmqbcmkc.supabase.co'],
   },
-  devIndicators: {
-    buildActivity: false,
-  },
+  output: 'standalone'
 }
 
 export default nextConfig
