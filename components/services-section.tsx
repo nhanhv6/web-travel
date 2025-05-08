@@ -21,7 +21,7 @@ export default function ValuesSection() {
   ];
 
   return (
-    <section id="values" className="bg-gray-900 py-20 text-white">
+    <section id="services" className="bg-gray-900 py-20 text-white">
       <div className="mx-auto px-4 container">
         <div className="mb-16 text-center">
           <h2 className="mb-4 font-bold text-3xl md:text-4xl">Our Values</h2>
