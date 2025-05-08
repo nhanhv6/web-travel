@@ -30,7 +30,7 @@ export default function AdminHeader() {
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
             <Link href="/admin" className="flex-shrink-0">
-              <span className="font-bold text-red-500 text-xl">Thanh Hải travel</span>
+              <span className="font-bold text-red-500 text-xl">Thanh Hải Travel</span>
               <span className="bg-red-600 ml-2 px-2 py-0.5 rounded text-sm">
                 Admin
               </span>
