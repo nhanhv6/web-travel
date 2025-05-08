@@ -152,7 +152,6 @@ export default function Header() {
         <nav className="hidden md:flex items-center space-x-8">
           {renderNavButton("home", "Home")}
           {renderNavButton("about", "About")}
-          {renderNavButton("bicycles", "Cycling Tour")}
           {renderTourDropdown()}
           {renderNavButton("services", "Services")}
           {renderNavButton("gallery", "Gallery")}

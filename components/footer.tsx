@@ -32,7 +32,6 @@ export default function Footer() {
               {[
                 { label: "Home", href: "/" },
                 { label: "About Us", href: "#about" },
-                { label: "Cycling Tour", href: "#motorcycles" },
                 { label: "Tours", href: "#tours" },
                 { label: "Services", href: "#services" },
                 { label: "Contact", href: "#contact" },
