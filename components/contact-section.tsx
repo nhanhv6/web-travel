@@ -1,4 +1,4 @@
-import { MapPin, Phone, Mail, Globe } from "lucide-react"
+import { MapPin, Phone, Mail, Globe } from "lucide-react";
 
 export default function ContactSection() {
   return (
@@ -8,7 +8,8 @@ export default function ContactSection() {
           <h2 className="mb-4 font-bold text-3xl md:text-4xl">Contact Us</h2>
           <div className="bg-red-600 mx-auto mb-6 w-20 h-1"></div>
           <p className="mx-auto max-w-3xl text-gray-700">
-            Have questions or want to schedule a tour? Reach out to us directly or explore our experiences through trusted platforms.
+            Have questions or want to schedule a tour? Reach out to us directly
+            or explore our experiences through trusted platforms.
           </p>
         </div>
 
@@ -20,7 +21,10 @@ export default function ContactSection() {
               <form className="space-y-6">
                 <div className="gap-6 grid md:grid-cols-2">
                   <div>
-                    <label htmlFor="name" className="block mb-1 font-medium text-gray-700 text-sm">
+                    <label
+                      htmlFor="name"
+                      className="block mb-1 font-medium text-gray-700 text-sm"
+                    >
                       Name
                     </label>
                     <input
@@ -31,7 +35,10 @@ export default function ContactSection() {
                     />
                   </div>
                   <div>
-                    <label htmlFor="email" className="block mb-1 font-medium text-gray-700 text-sm">
+                    <label
+                      htmlFor="email"
+                      className="block mb-1 font-medium text-gray-700 text-sm"
+                    >
                       Email
                     </label>
                     <input
@@ -43,7 +50,10 @@ export default function ContactSection() {
                   </div>
                 </div>
                 <div>
-                  <label htmlFor="subject" className="block mb-1 font-medium text-gray-700 text-sm">
+                  <label
+                    htmlFor="subject"
+                    className="block mb-1 font-medium text-gray-700 text-sm"
+                  >
                     Subject
                   </label>
                   <input
@@ -54,7 +64,10 @@ export default function ContactSection() {
                   />
                 </div>
                 <div>
-                  <label htmlFor="message" className="block mb-1 font-medium text-gray-700 text-sm">
+                  <label
+                    htmlFor="message"
+                    className="block mb-1 font-medium text-gray-700 text-sm"
+                  >
                     Message
                   </label>
                   <textarea
@@ -77,15 +90,23 @@ export default function ContactSection() {
           {/* Contact Info */}
           <div className="space-y-8">
             <div className="bg-white shadow-lg p-8 rounded-lg">
-              <h3 className="mb-6 font-semibold text-2xl">Contact Information</h3>
+              <h3 className="mb-6 font-semibold text-2xl">
+                Contact Information
+              </h3>
               <div className="space-y-4">
                 <div className="flex items-start">
                   <Phone className="mt-1 mr-4 w-6 h-6 text-red-600" />
                   <div>
                     <h4 className="font-semibold">WhatsApp</h4>
-                    <p className="text-gray-700">(+84) 343 980 055</p>
+                    <a
+                      href="tel:+84343980055"
+                      className="text-gray-700 hover:underline"
+                    >
+                      (+84) 343 980 055
+                    </a>
                   </div>
                 </div>
+
                 <div className="flex items-start">
                   <Globe className="mt-1 mr-4 w-6 h-6 text-red-600" />
                   <div>
@@ -131,5 +152,5 @@ export default function ContactSection() {
         </div>
       </div>
     </section>
-  )
+  );
 }

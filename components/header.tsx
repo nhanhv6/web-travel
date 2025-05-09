@@ -8,25 +8,27 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ChevronDown, LogIn, LogOut, User } from "lucide-react";
+import { ChevronDown, LogOut, User } from "lucide-react";
 import MobileMenu from "./mobile-menu";
 import { useTourContext } from "@/context/TourContext";
 import { useRouter, usePathname } from "next/navigation";
 import { Button } from "./ui/button";
 import { supabase } from "@/lib/supabaseClient";
+import { useAlert } from "@/context/AlertProvider";
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const { tours } = useTourContext();
+  const { showAlert } = useAlert();
   const router = useRouter();
   const pathname = usePathname();
 
   const navigateToHomeAndAnchor = (hash: string) => {
     if (pathname !== "/") {
       router.push(`/#${hash}`);
-    } else if (hash === "home") { 
-      window.scrollTo({ top: 0, behavior: "smooth" }); 
+    } else if (hash === "home") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
     } else {
       scrollToSection(hash);
     }
@@ -42,8 +44,8 @@ export default function Header() {
       window.scrollTo({
         top: elementPosition - headerOffset,
         behavior: "smooth",
-      }); 
-    } else { 
+      });
+    } else {
     }
   };
 
@@ -80,8 +82,10 @@ export default function Header() {
     const { data, error } = await supabase.auth.getUser();
     if (data?.user) {
       setIsLoggedIn(true);
+      showAlert("You are logged in.", "success");
     } else {
       setIsLoggedIn(false);
+      showAlert("You are not logged in.", "error");
     }
   };
 
@@ -91,6 +95,7 @@ export default function Header() {
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
+    showAlert("You are logged out.", "success");
     setIsLoggedIn(false);
     router.push("/");
   };
@@ -126,7 +131,7 @@ export default function Header() {
         setIsLoggedIn(!!session?.user);
       }
     );
-  
+
     // Cleanup listener khi unmount
     return () => {
       authListener.subscription.unsubscribe();
@@ -141,7 +146,9 @@ export default function Header() {
           onClick={() => router.push("/")}
           className="flex items-center space-x-2"
         >
-          <span className="font-bold text-red-600 text-2xl">Thanh Hải Travel</span>
+          <span className="font-bold text-red-600 text-2xl">
+            Thanh Hải Travel
+          </span>
         </button>
 
         {/* Middle: Hidden on mobile */}

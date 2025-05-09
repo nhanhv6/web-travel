@@ -32,8 +32,14 @@ export interface AlertProps extends VariantProps<typeof alertVariants> {
 
 export const Alert = ({ message, type, visible, onClose }: AlertProps) => {
   return (
-    <div className={cn(alertVariants({ type, animation: visible ? "enter" : "leave" }))}>
-      <div className="flex-1 font-medium text-sm">{message}</div>
+    <div
+      className={cn(
+        alertVariants({ type, animation: visible ? "enter" : "leave" })
+      )}
+    >
+      <div className="flex-1 w-full font-medium text-sm text-center">
+        {message}
+      </div>
       <button
         onClick={onClose}
         className="text-gray-500 hover:text-gray-700 transition-colors"

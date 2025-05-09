@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { useAlert } from "@/context/AlertProvider";
 import { supabase } from "@/lib/supabaseClient";
 import { Eye, EyeOff, Lock, Mail } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -15,6 +16,7 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const { showAlert } = useAlert();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,10 +38,11 @@ export default function LoginPage() {
       if (loginError) {
         setError("Invalid email or password. Please try again.");
       } else {
-        router.push("/"); // hoặc trang dashboard nào bạn muốn
+        showAlert("You are logged in.", "success");
+        setTimeout(() => router.push("/admin/tours"), 1000);
       }
     } catch (err) {
-      console.error("Login error:", err);
+      showAlert("Email or password is incorrect", "error");
       setError("An unexpected error occurred. Please try again.");
     } finally {
       setIsLoading(false);

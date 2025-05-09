@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import TourProvider from "@/context/TourContext";
+import { AlertProvider } from "@/context/AlertProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,9 +25,11 @@ export default function RootLayout({
         className={`${inter.className} flex flex-col min-h-screen bg-white text-gray-900`}
       >
         <TourProvider>
-          <Header />
-          <main className="flex-grow">{children}</main>
-          <Footer />
+          <AlertProvider>
+            <Header />
+            <main className="flex-grow">{children}</main>
+            <Footer />
+          </AlertProvider>
         </TourProvider>
       </body>
     </html>
