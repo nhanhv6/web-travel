@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback } from "react";
+import { Suspense, useCallback } from "react";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import useEmblaCarousel from "embla-carousel-react";
@@ -109,7 +109,9 @@ export default function TourDetailClient({ slug }: { slug: string }) {
 
         {/* Sidebar: Other tours */}
         <div className="col-span-1">
-          <OtherToursSidebar otherTours={otherTours} />
+          <Suspense fallback={<Loading />}>
+            <OtherToursSidebar otherTours={otherTours} />
+          </Suspense>
         </div>
       </div>
     </div>

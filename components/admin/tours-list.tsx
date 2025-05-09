@@ -24,13 +24,18 @@ import {
 } from "@/components/ui/dialog";
 import { deleteTour, getTours } from "@/app/action/tour-actions";
 import { Tour } from "@/types";
+import Loading from "../ui/loading";
+import { useAlert } from "@/context/AlertProvider";
 
 export default function ToursList() {
   const [tours, setTours] = useState<Tour[]>([]);
+  const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [tourToDelete, setTourToDelete] = useState<string | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
+
+  const { showAlert } = useAlert();
 
   const filteredTours = tours.filter(
     (tour) =>
@@ -51,8 +56,9 @@ export default function ToursList() {
       // In a real app, this would call an API endpoint
       await deleteTour(tourToDelete);
       setTours(tours.filter((tour) => tour.id !== tourToDelete));
+      showAlert("Tour deleted successfully.", "success");
     } catch (error) {
-      console.error("Failed to delete tour:", error);
+      showAlert("Failed to delete tour.", "error");
     } finally {
       setIsDeleting(false);
       setDeleteDialogOpen(false);
@@ -62,19 +68,29 @@ export default function ToursList() {
 
   useEffect(() => {
     const loadTours = async () => {
+      setLoading(true);
       try {
         const data = await getTours();
         setTours(data);
       } catch (error) {
         console.error("Failed to fetch tours:", error);
+      } finally {
+        setLoading(false);
       }
     };
-  
+
     loadTours();
   }, []);
 
+  if (loading) return <Loading />;
+
   return (
     <div>
+      {loading && (
+        <div className="z-[99] fixed inset-0">
+          <Loading />
+        </div>
+      )}
       <div className="flex items-center mb-6">
         <div className="relative flex-1 max-w-md">
           <Search className="top-2.5 left-2.5 absolute w-4 h-4 text-gray-500" />

@@ -1,4 +1,6 @@
+import { Suspense } from "react";
 import TourDetailClient from "./modules/TourDetailClient";
+import Loading from "@/components/ui/loading";
 
 export default async function TourDetailPage({
   params,
@@ -6,5 +8,10 @@ export default async function TourDetailPage({
   params: { slug: string };
 }) {
   const { slug } = await params;
-  return <TourDetailClient slug={slug} />;
+
+  return (
+    <Suspense fallback={<Loading />}>
+      <TourDetailClient slug={slug} />
+    </Suspense>
+  );
 }

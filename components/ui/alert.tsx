@@ -1,59 +1,36 @@
-import * as React from "react"
-import { cva, type VariantProps } from "class-variance-authority"
+"use client";
+import { useAlert } from "@/context/AlertContext";
+import { useEffect } from "react";
 
-import { cn } from "@/lib/utils"
+const Alert = () => {
+  const { alertMessage, alertType, clearAlert } = useAlert();
 
-const alertVariants = cva(
-  "relative w-full rounded-lg border p-4 [&>svg~*]:pl-7 [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-foreground",
-  {
-    variants: {
-      variant: {
-        default: "bg-background text-foreground",
-        destructive:
-          "border-destructive/50 text-destructive dark:border-destructive [&>svg]:text-destructive",
-      },
-    },
-    defaultVariants: {
-      variant: "default",
-    },
-  }
-)
+  if (!alertMessage || !alertType) return null;
 
-const Alert = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement> & VariantProps<typeof alertVariants>
->(({ className, variant, ...props }, ref) => (
-  <div
-    ref={ref}
-    role="alert"
-    className={cn(alertVariants({ variant }), className)}
-    {...props}
-  />
-))
-Alert.displayName = "Alert"
+  useEffect(() => {
+    if (alertMessage && alertType) {
+      const timer = setTimeout(() => {
+        clearAlert();
+      }, 3000);
 
-const AlertTitle = React.forwardRef<
-  HTMLParagraphElement,
-  React.HTMLAttributes<HTMLHeadingElement>
->(({ className, ...props }, ref) => (
-  <h5
-    ref={ref}
-    className={cn("mb-1 font-medium leading-none tracking-tight", className)}
-    {...props}
-  />
-))
-AlertTitle.displayName = "AlertTitle"
+      return () => clearTimeout(timer);
+    }
+  }, [alertMessage, alertType, clearAlert]);
 
-const AlertDescription = React.forwardRef<
-  HTMLParagraphElement,
-  React.HTMLAttributes<HTMLParagraphElement>
->(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn("text-sm [&_p]:leading-relaxed", className)}
-    {...props}
-  />
-))
-AlertDescription.displayName = "AlertDescription"
+  return (
+    <div
+      className={`fixed top-5 left-1/2 transform -translate-x-1/2 w-full max-w-lg p-4 rounded-lg shadow-lg ${
+        alertType === "success" ? "bg-green-500" : "bg-red-500"
+      }`}
+    >
+      <div className="flex justify-between items-center">
+        <span className="text-white">{alertMessage}</span>
+        <button onClick={clearAlert} className="text-white">
+          ×
+        </button>
+      </div>
+    </div>
+  );
+};
 
-export { Alert, AlertTitle, AlertDescription }
+export default Alert;

@@ -25,10 +25,8 @@ export default function Header() {
   const navigateToHomeAndAnchor = (hash: string) => {
     if (pathname !== "/") {
       router.push(`/#${hash}`);
-    } else if (hash === "home") {
-      // Cuộn lên đầu trang nếu là "home" và đang ở trang chủ
-      window.scrollTo({ top: 0, behavior: "smooth" });
-      console.log("Scrolled to top of home page");
+    } else if (hash === "home") { 
+      window.scrollTo({ top: 0, behavior: "smooth" }); 
     } else {
       scrollToSection(hash);
     }
@@ -44,10 +42,8 @@ export default function Header() {
       window.scrollTo({
         top: elementPosition - headerOffset,
         behavior: "smooth",
-      });
-      console.log(`Scrolling to element with id: ${hash}`);
-    } else {
-      console.log(`Element with id: ${hash} not found`);
+      }); 
+    } else { 
     }
   };
 

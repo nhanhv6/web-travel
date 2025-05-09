@@ -10,8 +10,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Thanh Hải Travel",
-  description:
-    "Discover our premium selection of bicycles and professional services",
+  description: "Experience Authentic Hoi An with a Local Guide",
 };
 
 export default function RootLayout({
@@ -21,10 +20,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="scroll-smooth">
-      <body className={inter.className}>
+      <body
+        className={`${inter.className} flex flex-col min-h-screen bg-white text-gray-900`}
+      >
         <TourProvider>
           <Header />
-          {children}
+          <main className="flex-grow">{children}</main>
           <Footer />
         </TourProvider>
       </body>

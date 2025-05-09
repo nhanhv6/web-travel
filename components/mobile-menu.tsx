@@ -5,7 +5,6 @@ import Link from "next/link";
 import { X, ChevronDown, ChevronUp, LogOut, User, LogIn } from "lucide-react";
 import { Tour } from "@/types";
 import { useRouter, usePathname } from "next/navigation";
-import { Separator } from "@radix-ui/react-separator";
 
 export default function MobileMenu({
   isOpen,
@@ -23,16 +22,14 @@ export default function MobileMenu({
   const scrollToSection = (hash: string) => {
     const element = document.getElementById(hash);
     if (element) {
-      const headerOffset = 80; // Điều chỉnh theo chiều cao header
+      const headerOffset = 80;
       const elementPosition =
         element.getBoundingClientRect().top + window.pageYOffset;
       window.scrollTo({
         top: elementPosition - headerOffset,
         behavior: "smooth",
       });
-      console.log(`Scrolled to element with id: ${hash}`);
     } else {
-      console.log(`Element with id: ${hash} not found`);
     }
   };
 
@@ -46,8 +43,7 @@ export default function MobileMenu({
   };
 
   const navigateToTour = (slug: string) => {
-    router.push(`/tours/${slug}`);
-    // Cuộn lên đầu ngay sau khi điều hướng
+    router.push(`/tours/${slug}`); 
     setTimeout(() => window.scrollTo({ top: 0, behavior: "smooth" }), 0);
     onClose();
   };
@@ -69,7 +65,9 @@ export default function MobileMenu({
     >
       <div className="top-0 right-0 fixed bg-white shadow-lg p-5 w-3/4 max-w-sm h-full overflow-y-auto">
         <div className="flex justify-between items-center mb-8">
-          <span className="font-bold text-red-600 text-xl">Thanh Hải Travel</span>
+          <span className="font-bold text-red-600 text-xl">
+            Thanh Hải Travel
+          </span>
           <button onClick={onClose} className="p-2">
             <X className="w-6 h-6" />
           </button>

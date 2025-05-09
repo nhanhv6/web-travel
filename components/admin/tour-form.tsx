@@ -6,15 +6,14 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { toast } from "sonner";
-import { supabase } from "@/lib/supabaseClient";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { createTour, updateTour } from "@/app/action/tour-actions";
+import { omit } from "lodash";
+import { useAlert } from "@/context/AlertProvider";
 
 export default function TourForm({ tour }: { tour?: any }) {
   const router = useRouter();
-
   const [formData, setFormData] = useState({
     id: tour?.id || "",
     slug: tour?.slug || "",
@@ -35,6 +34,8 @@ export default function TourForm({ tour }: { tour?: any }) {
     },
     content: tour?.content || "",
   });
+
+  const { showAlert } = useAlert();
 
   const editor = useEditor({
     extensions: [StarterKit],
@@ -74,100 +75,126 @@ export default function TourForm({ tour }: { tour?: any }) {
 
     try {
       if (formData.id) {
-        // Nếu có id, gọi updateTour
-        const updatedTour = await updateTour(formData.id, formData);
-        toast.success("Tour updated successfully!");
+        await updateTour(formData.id, formData);
       } else {
-        // Nếu không có id, gọi createTour
-        const newTour = await createTour(formData);
-        toast.success("Tour created successfully!");
+        await createTour(omit(formData, "id"));
       }
 
-      // Sau khi thành công, quay lại trang danh sách tour
-      router.push("/admin/tours");
+      showAlert(
+        `Tour "${formData.id ? "Updated" : "New"}"  successfully.`,
+        "success"
+      );
+
+      setTimeout(() => {
+        router.push("/admin/tours");
+      }, 2000);
     } catch (error) {
-      toast.error((error as Error).message);
+      const message = (error as Error).message;
+      showAlert(message, "error");
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="gap-4 grid grid-cols-1 md:grid-cols-2">
-        <div>
-          <Label htmlFor="title">Title</Label>
-          <Input
-            id="title"
-            name="title"
-            value={formData.title}
-            onChange={handleChange}
-          />
+    <>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="gap-4 grid grid-cols-1 md:grid-cols-2">
+          <div>
+            <Label htmlFor="title">Title</Label>
+            <Input
+              id="title"
+              name="title"
+              value={formData.title}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <Label htmlFor="slug">Slug</Label>
+            <Input
+              id="slug"
+              name="slug"
+              value={formData.slug}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <Label htmlFor="price">Price</Label>
+            <Input
+              id="price"
+              name="price"
+              type="number"
+              value={formData.price}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <Label htmlFor="rating">Rating</Label>
+            <Input
+              id="rating"
+              name="rating"
+              type="number"
+              step="0.1"
+              value={formData.rating}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <Label htmlFor="duration">Duration</Label>
+            <Input
+              id="duration"
+              name="duration"
+              value={formData.duration}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <Label htmlFor="distance">Distance</Label>
+            <Input
+              id="distance"
+              name="distance"
+              value={formData.distance}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <Label htmlFor="difficulty">Difficulty</Label>
+            <Input
+              id="difficulty"
+              name="difficulty"
+              value={formData.difficulty}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <Label htmlFor="groupSize">Group Size</Label>
+            <Input
+              id="groupSize"
+              name="groupSize"
+              value={formData.groupSize}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <Label htmlFor="timeStart">Start Time</Label>
+            <Input
+              id="timeStart"
+              name="start"
+              type="time"
+              value={formData.time.start}
+              onChange={handleTimeChange}
+            />
+          </div>
+          <div>
+            <Label htmlFor="timeEnd">End Time</Label>
+            <Input
+              id="timeEnd"
+              name="end"
+              type="time"
+              value={formData.time.end}
+              onChange={handleTimeChange}
+            />
+          </div>
         </div>
-        <div>
-          <Label htmlFor="slug">Slug</Label>
-          <Input
-            id="slug"
-            name="slug"
-            value={formData.slug}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <Label htmlFor="price">Price</Label>
-          <Input
-            id="price"
-            name="price"
-            type="number"
-            value={formData.price}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <Label htmlFor="rating">Rating</Label>
-          <Input
-            id="rating"
-            name="rating"
-            type="number"
-            step="0.1"
-            value={formData.rating}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <Label htmlFor="duration">Duration</Label>
-          <Input
-            id="duration"
-            name="duration"
-            value={formData.duration}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <Label htmlFor="distance">Distance</Label>
-          <Input
-            id="distance"
-            name="distance"
-            value={formData.distance}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <Label htmlFor="difficulty">Difficulty</Label>
-          <Input
-            id="difficulty"
-            name="difficulty"
-            value={formData.difficulty}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <Label htmlFor="groupSize">Group Size</Label>
-          <Input
-            id="groupSize"
-            name="groupSize"
-            value={formData.groupSize}
-            onChange={handleChange}
-          />
-        </div>
+
         <div>
           <Label htmlFor="image">Image</Label>
           <Input
@@ -176,67 +203,95 @@ export default function TourForm({ tour }: { tour?: any }) {
             value={formData.image}
             onChange={handleChange}
           />
+          {formData.image && (
+            <img
+              src={formData.image}
+              alt="Tour thumbnail"
+              className="shadow mt-2 rounded w-full max-w-xs h-auto"
+            />
+          )}
         </div>
+
         <div>
-          <Label htmlFor="timeStart">Start Time</Label>
-          <Input
-            id="timeStart"
-            name="start"
-            type="time"
-            value={formData.time.start}
-            onChange={handleTimeChange}
-          />
-        </div>
-        <div>
-          <Label htmlFor="timeEnd">End Time</Label>
-          <Input
-            id="timeEnd"
-            name="end"
-            type="time"
-            value={formData.time.end}
-            onChange={handleTimeChange}
-          />
-        </div>
-        <div>
-          <div>
-            <Label htmlFor="imageGallery">
-              Image Gallery (comma-separated URLs)
-            </Label>
-            <Textarea
-              id="imageGallery"
-              name="imageGallery"
-              value={formData.imageGallery.join(", ")}
-              onChange={(e) =>
+          <Label>Image Gallery</Label>
+          <div className="space-y-2">
+            {formData.imageGallery.map((url: string, index: number) => (
+              <div key={index} className="flex items-center gap-2">
+                <Input
+                  value={url}
+                  onChange={(e) => {
+                    const newGallery = [...formData.imageGallery];
+                    newGallery[index] = e.target.value;
+                    setFormData((prev) => ({
+                      ...prev,
+                      imageGallery: newGallery,
+                    }));
+                  }}
+                />
+                <Button
+                  type="button"
+                  variant="destructive"
+                  size="icon"
+                  onClick={() => {
+                    const newGallery = [...formData.imageGallery];
+                    newGallery.splice(index, 1);
+                    setFormData((prev) => ({
+                      ...prev,
+                      imageGallery: newGallery,
+                    }));
+                  }}
+                >
+                  ✕
+                </Button>
+              </div>
+            ))}
+            <Button
+              type="button"
+              onClick={() =>
                 setFormData((prev) => ({
                   ...prev,
-                  imageGallery: e.target.value
-                    .split(",")
-                    .map((url) => url.trim()),
+                  imageGallery: [...prev.imageGallery, ""],
                 }))
               }
-            />
+            >
+              + Add Image URL
+            </Button>
+          </div>
+
+          <div className="flex flex-wrap gap-2 mt-4">
+            {formData.imageGallery.map(
+              (url: string, index: number) =>
+                url && (
+                  <img
+                    key={index}
+                    src={url}
+                    alt={`Gallery ${index + 1}`}
+                    className="shadow rounded w-24 h-24 object-cover"
+                  />
+                )
+            )}
           </div>
         </div>
-      </div>
 
-      <div>
-        <Label htmlFor="description">Description</Label>
-        <Textarea
-          id="description"
-          name="description"
-          value={formData.description}
-          onChange={handleChange}
-        />
-      </div>
-
-      <div>
-        <Label htmlFor="content">Content</Label>
-        <div className="p-2 border rounded">
-          <EditorContent editor={editor} />
+        <div>
+          <Label htmlFor="description">Description</Label>
+          <Textarea
+            id="description"
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+          />
         </div>
-      </div>
 
-      <Button type="submit">Save Tour</Button>
-    </form>
+        <div>
+          <Label htmlFor="content">Content</Label>
+          <div className="p-2 border rounded">
+            <EditorContent editor={editor} />
+          </div>
+        </div>
+
+        <Button type="submit">Save Tour</Button>
+      </form>
+    </>
   );
 }

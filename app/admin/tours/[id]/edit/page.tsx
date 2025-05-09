@@ -1,24 +1,12 @@
-import { notFound } from "next/navigation";
+import { Suspense } from "react";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { getTourById } from "@/app/action/tour-actions";
-import TourForm from "@/components/admin/tour-form";
+import TourFormWrapper from "./modules/TourFormWrapper";
+import Loading from "@/components/ui/loading";
 
-export default async function EditTourPage({
-  params,
-}: {
-  params: { id: string };
-}) {
-  const { id } = await params;
-  console.log({ id });
-  
-  const tour = await getTourById(id);
-
-  if (!tour) {
-    notFound();
-  }
-
+export default async function EditTourPage({ params }: { params: { id: string } }) {
+    const { id } = await params;
   return (
     <div className="flex flex-col min-h-screen">
       <main className="flex-1 mx-auto px-4 py-8 container">
@@ -33,7 +21,9 @@ export default async function EditTourPage({
           <h1 className="font-bold text-3xl">Edit Tour</h1>
         </div>
 
-        <TourForm tour={tour} />
+        <Suspense fallback={<Loading />}>
+          <TourFormWrapper id={id} />
+        </Suspense>
       </main>
     </div>
   );
