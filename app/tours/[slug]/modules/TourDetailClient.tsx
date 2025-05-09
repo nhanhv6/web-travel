@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useCallback } from "react";
+import { Suspense, useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import useEmblaCarousel from "embla-carousel-react";
@@ -9,11 +9,14 @@ import Loading from "@/components/ui/loading";
 import DOMPurify from "dompurify";
 import OtherToursSidebar from "./OtherToursSidebar";
 import { useTourApi } from "../hook";
+import Autoplay from "embla-carousel-autoplay";
 
 export default function TourDetailClient({ slug }: { slug: string }) {
+  const [selectedIndex, setSelectedIndex] = useState(0);
   const { tour, otherTours, loading } = useTourApi(slug);
-  const [emblaRef, emblaApi] = useEmblaCarousel();
-
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
+    Autoplay({ delay: 3000, stopOnInteraction: false }),
+  ]);
   const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
   const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
 
@@ -21,6 +24,21 @@ export default function TourDetailClient({ slug }: { slug: string }) {
   if (!tour) return notFound();
 
   const sanitizedDescription = DOMPurify.sanitize(tour.content);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+
+    const onSelect = () => {
+      setSelectedIndex(emblaApi.selectedScrollSnap());
+    };
+
+    emblaApi.on("select", onSelect);
+    onSelect();
+
+    return () => {
+      emblaApi.off("select", onSelect);
+    };
+  }, [emblaApi]);
 
   return (
     <div className="relative mx-auto px-4 py-16 max-w-7xl text-gray-900">
@@ -38,18 +56,22 @@ export default function TourDetailClient({ slug }: { slug: string }) {
           </div>
 
           <div className="relative shadow-xl rounded-2xl overflow-hidden">
-            <div ref={emblaRef} className="overflow-hidden">
-              <div className="flex">
-                {tour.imageGallery?.map((img, i) => (
+            <div ref={emblaRef} className="relative h-[500px] overflow-hidden">
+              <div className="absolute inset-0 flex">
+                {tour.imageGallery?.map((img, index) => (
                   <div
-                    className="relative min-w-full h-[500px] transition-all"
-                    key={i}
+                    key={index}
+                    className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+                      selectedIndex === index
+                        ? "opacity-100 z-10"
+                        : "opacity-0 z-0"
+                    }`}
                   >
                     <Image
                       src={img.replace("..", "")}
-                      alt={`Slide ${i + 1}`}
+                      alt={`Slide ${index + 1}`}
                       fill
-                      className="w-full h-full object-cover"
+                      className="rounded-xl object-cover"
                     />
                   </div>
                 ))}

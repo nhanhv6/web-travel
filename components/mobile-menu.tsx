@@ -43,7 +43,7 @@ export default function MobileMenu({
   };
 
   const navigateToTour = (slug: string) => {
-    router.push(`/tours/${slug}`); 
+    router.push(`/tours/${slug}`);
     setTimeout(() => window.scrollTo({ top: 0, behavior: "smooth" }), 0);
     onClose();
   };
@@ -78,7 +78,6 @@ export default function MobileMenu({
             Home
           </Link>
           {renderNavButton("about", "About")}
-          {renderNavButton("bicycles", "Cycling Tour")}
 
           <div>
             <button
