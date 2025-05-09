@@ -81,11 +81,9 @@ export default function Header() {
   const checkLogin = async () => {
     const { data, error } = await supabase.auth.getUser();
     if (data?.user) {
-      setIsLoggedIn(true);
-      showAlert("You are logged in.", "success");
+      setIsLoggedIn(true); 
     } else {
       setIsLoggedIn(false);
-      showAlert("You are not logged in.", "error");
     }
   };
 
