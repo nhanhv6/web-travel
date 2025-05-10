@@ -11,6 +11,7 @@ import StarterKit from "@tiptap/starter-kit";
 import { createTour, updateTour } from "@/app/action/tour-actions";
 import { omit } from "lodash";
 import { useAlert } from "@/context/AlertProvider";
+import { supabase } from "@/lib/supabaseClient";
 
 export default function TourForm({ tour }: { tour?: any }) {
   const router = useRouter();
@@ -81,7 +82,7 @@ export default function TourForm({ tour }: { tour?: any }) {
       }
 
       showAlert(
-        `Tour "${formData.id ? "Updated" : "New"}"  successfully.`,
+        `"${formData.id ? "Tour  Updated" : "Create the Tour"}"  successfully.`,
         "success"
       );
 
@@ -91,6 +92,63 @@ export default function TourForm({ tour }: { tour?: any }) {
     } catch (error) {
       const message = (error as Error).message;
       showAlert(message, "error");
+    }
+  };
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const fileExt = file.name.split(".").pop();
+    const fileName = `${Date.now()}.${fileExt}`;
+    const filePath = `public/${fileName}`;
+
+    const { data, error } = await supabase.storage
+      .from("tour-images")
+      .upload(filePath, file);
+
+    if (error) {
+      console.error("Upload error:", error.message);
+      return;
+    }
+
+    const { data: urlData } = supabase.storage
+      .from("tour-images")
+      .getPublicUrl(filePath);
+
+    if (urlData?.publicUrl) {
+      setFormData((prev) => ({
+        ...prev,
+        image: urlData.publicUrl,
+      }));
+    }
+  };
+
+  const handleImageGalleryUpload = async (file: File, index: number) => {
+    const fileExt = file.name.split(".").pop();
+    const fileName = `${Date.now()}-${index}.${fileExt}`;
+    const filePath = `public/gallery/${fileName}`;
+
+    const { error } = await supabase.storage
+      .from("tour-images")
+      .upload(filePath, file);
+
+    if (error) {
+      console.error("Upload failed:", error.message);
+      return;
+    }
+
+    const { data } = supabase.storage
+      .from("tour-images")
+      .getPublicUrl(filePath);
+
+    if (data?.publicUrl) {
+      const newGallery = [...formData.imageGallery];
+      newGallery[index] = data.publicUrl;
+      setFormData((prev) => ({
+        ...prev,
+        imageGallery: newGallery,
+      }));
     }
   };
 
@@ -200,8 +258,9 @@ export default function TourForm({ tour }: { tour?: any }) {
           <Input
             id="image"
             name="image"
-            value={formData.image}
-            onChange={handleChange}
+            type="file"
+            accept="image/*"
+            onChange={handleImageUpload}
           />
           {formData.image && (
             <img
@@ -218,16 +277,23 @@ export default function TourForm({ tour }: { tour?: any }) {
             {formData.imageGallery.map((url: string, index: number) => (
               <div key={index} className="flex items-center gap-2">
                 <Input
-                  value={url}
+                  type="file"
+                  accept="image/*"
                   onChange={(e) => {
-                    const newGallery = [...formData.imageGallery];
-                    newGallery[index] = e.target.value;
-                    setFormData((prev) => ({
-                      ...prev,
-                      imageGallery: newGallery,
-                    }));
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      handleImageGalleryUpload(file, index);
+                    }
                   }}
                 />
+                {url && (
+                  <Input
+                    value={url}
+                    readOnly
+                    className="cursor-pointer"
+                    onClick={() => window.open(url, "_blank")}
+                  />
+                )}
                 <Button
                   type="button"
                   variant="destructive"

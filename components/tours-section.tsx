@@ -27,12 +27,13 @@ export default function ToursSection() {
               key={tour.id}
               className="bg-white shadow-lg rounded-lg overflow-hidden hover:scale-[1.02] transition-transform"
             >
-              <div className="relative h-[900px]">
+              <div className="relative aspect-[16/9] sm:aspect-[21/9]">
                 <Image
                   src={tour.image || "/placeholder.svg"}
                   alt={tour.title}
-                  fill
-                  className="object-cover"
+                  width={800}
+                  height={450}
+                  className="w-full h-auto object-contain"
                 />
                 <div className="top-4 right-4 absolute bg-red-600 px-3 py-1 rounded-full font-medium text-white text-sm">
                   {tour.price}
