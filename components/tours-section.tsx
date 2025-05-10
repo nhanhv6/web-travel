@@ -27,7 +27,7 @@ export default function ToursSection() {
               key={tour.id}
               className="bg-white shadow-lg rounded-lg overflow-hidden hover:scale-[1.02] transition-transform"
             >
-              <div className="relative h-64">
+              <div className="relative h-[800px]">
                 <Image
                   src={tour.image || "/placeholder.svg"}
                   alt={tour.title}
