@@ -15,7 +15,7 @@ export default function ToursSection() {
           <h2 className="mb-4 font-bold text-3xl md:text-4xl">Our Tours</h2>
           <div className="bg-red-600 mx-auto mb-6 w-20 h-1"></div>
           <p className="mx-auto max-w-3xl text-gray-700">
-            Join our guided bicycles tours and experience the thrill of the open
+            Bicycles tours and experience the thrill of the open
             road with fellow riders. Our professional guides ensure a safe and
             unforgettable adventure.
           </p>

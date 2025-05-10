@@ -14,7 +14,7 @@ import Autoplay from "embla-carousel-autoplay";
 export default function TourDetailClient({ slug }: { slug: string }) {
   const { tour, otherTours, loading } = useTourApi(slug);
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
-    Autoplay({ delay: 3000, stopOnInteraction: false }),
+    Autoplay({ delay: 10000, stopOnInteraction: false }),
   ]);
   const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
   const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
@@ -48,7 +48,7 @@ export default function TourDetailClient({ slug }: { slug: string }) {
                       src={img.replace("..", "")}
                       alt={`Slide ${i + 1}`}
                       fill
-                      className="w-full h-full object-cover"
+                      className="w-full object-contain"
                     />
                   </div>
                 ))}
