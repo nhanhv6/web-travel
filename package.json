@@ -1,6 +1,6 @@
 {
   "name": "thanh-hai-travel-website",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -48,6 +48,7 @@
     "dompurify": "^3.2.5",
     "embla-carousel-autoplay": "^8.6.0",
     "embla-carousel-react": "^8.6.0",
+    "framer-motion": "^12.10.5",
     "input-otp": "1.4.1",
     "json-server": "^1.0.0-beta.3",
     "lucide-react": "^0.454.0",

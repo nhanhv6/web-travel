@@ -11,9 +11,11 @@ import OtherToursSidebar from "./OtherToursSidebar";
 import { useTourApi } from "../hook";
 import Autoplay from "embla-carousel-autoplay";
 
+import { motion } from "framer-motion";
+
 export default function TourDetailClient({ slug }: { slug: string }) {
   const { tour, otherTours, loading } = useTourApi(slug);
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false }, [
     Autoplay({ delay: 10000, stopOnInteraction: false }),
   ]);
   const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
@@ -24,22 +26,41 @@ export default function TourDetailClient({ slug }: { slug: string }) {
 
   const sanitizedDescription = DOMPurify.sanitize(tour.content);
 
+  const fadeIn = {
+    hidden: { opacity: 0, y: 50 },
+    visible: { opacity: 1, y: 0 },
+  };
+
   return (
     <div className="relative mx-auto px-4 py-16 max-w-7xl text-gray-900">
       <div className="-z-10 absolute inset-0 bg-gradient-to-br from-indigo-50 via-white to-teal-50 opacity-70" />
 
       <div className="gap-12 grid grid-cols-1 md:grid-cols-3">
         <div className="col-span-2">
-          <div className="mb-10 text-center">
+          <motion.div
+            variants={fadeIn}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="mb-10 text-center"
+          >
             <h1 className="bg-clip-text bg-gradient-to-r from-teal-500 to-indigo-600 drop-shadow font-extrabold text-transparent text-4xl md:text-5xl tracking-tight">
               {tour.title}
             </h1>
             <div className="inline-flex items-center gap-2 bg-yellow-100 shadow-sm mt-2 px-3 py-1 rounded-full font-semibold text-yellow-800 text-sm">
               ⭐ {tour.rating} / 5.0
             </div>
-          </div>
+          </motion.div>
 
-          <div className="relative shadow-xl rounded-2xl overflow-hidden">
+          <motion.div
+            variants={fadeIn}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            transition={{ delay: 0.2, duration: 0.6 }}
+            className="relative shadow-xl rounded-2xl overflow-hidden"
+          >
             <div ref={emblaRef} className="overflow-hidden">
               <div className="flex">
                 {tour.imageGallery?.map((img, i) => (
@@ -54,7 +75,6 @@ export default function TourDetailClient({ slug }: { slug: string }) {
                 ))}
               </div>
             </div>
-
             <button
               onClick={scrollPrev}
               className="top-1/2 left-4 z-10 absolute bg-white shadow-md hover:shadow-lg p-3 rounded-full transition -translate-y-1/2"
@@ -67,17 +87,31 @@ export default function TourDetailClient({ slug }: { slug: string }) {
             >
               <ChevronRight />
             </button>
-          </div>
+          </motion.div>
 
-          <div className="space-y-6 mt-12 text-gray-700 text-lg leading-relaxed">
+          <motion.div
+            variants={fadeIn}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            transition={{ delay: 0.4, duration: 0.6 }}
+            className="space-y-6 mt-12 text-gray-700 text-lg leading-relaxed"
+          >
             <p className="italic">{tour.description}</p>
             <div
               className="max-w-none prose prose-indigo prose-lg"
               dangerouslySetInnerHTML={{ __html: sanitizedDescription }}
             />
-          </div>
+          </motion.div>
 
-          <div className="gap-6 grid grid-cols-2 md:grid-cols-4 mt-12">
+          <motion.div
+            variants={fadeIn}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            transition={{ delay: 0.6, duration: 0.6 }}
+            className="gap-6 grid grid-cols-2 md:grid-cols-4 mt-12"
+          >
             {[
               ["🕒 Duration", tour.duration],
               ["⏰ Time", `${tour.time.start} - ${tour.time.end}`],
@@ -92,10 +126,16 @@ export default function TourDetailClient({ slug }: { slug: string }) {
                 <p className="font-semibold text-gray-900 text-base">{value}</p>
               </div>
             ))}
-          </div>
+          </motion.div>
 
-          {/* Price */}
-          <div className="mt-12 text-center">
+          <motion.div
+            variants={fadeIn}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            transition={{ delay: 0.8, duration: 0.6 }}
+            className="mt-12 text-center"
+          >
             <p className="drop-shadow-sm font-extrabold text-indigo-600 text-3xl">
               {tour.price.toLocaleString()} $
             </p>
@@ -103,10 +143,9 @@ export default function TourDetailClient({ slug }: { slug: string }) {
             <button className="bg-gradient-to-r from-indigo-500 to-teal-500 shadow-lg mt-4 px-6 py-3 rounded-xl font-semibold text-white hover:scale-105 transition transform">
               Book Now
             </button>
-          </div>
+          </motion.div>
         </div>
 
-        {/* Sidebar: Other tours */}
         <div className="col-span-1">
           <Suspense fallback={<Loading />}>
             <OtherToursSidebar otherTours={otherTours} />
