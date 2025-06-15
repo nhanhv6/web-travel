@@ -89,16 +89,6 @@ export default function ContactSection() {
           <div>
             <div className="bg-white shadow-lg p-8 rounded-lg">
               <h3 className="mb-6 font-semibold text-2xl">Send Us a Message</h3>
-              {alert && showAlert && (
-                <div
-                  className={`mb-4 rounded-md p-4 ${
-                    alert.type === "success"
-                      ? "bg-green-100 text-green-700"
-                      : "bg-red-100 text-red-700"
-                  }`}>
-                  {alert.message}
-                </div>
-              )}
               <form className="space-y-6" onSubmit={handleSubmit}>
                 <div className="gap-6 grid md:grid-cols-2">
                   <div>
